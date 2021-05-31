@@ -18,7 +18,7 @@ analyzer = Syntax.Shared.node do
             [ liftUnion <$> some 
                 do choice
                     [ noneOf "\\"
-                    , escape
+                    , charEscape
                     ]
             , liftUnion <$> interpolation
             ]
@@ -29,8 +29,8 @@ analyzer = Syntax.Shared.node do
                 , Syntax.UnexpectedToken.analyzer
                 ]
 
-escape :: Syntax.Analyzer.Analyzer Char
-escape = try do
+charEscape :: Syntax.Analyzer.Analyzer Char
+charEscape = try do
     single '\\'
 
     choice
