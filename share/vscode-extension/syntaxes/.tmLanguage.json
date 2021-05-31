@@ -830,10 +830,7 @@
 			},
 			"patterns": [
 				{
-					"include": "#literal/string/ascii-escape"
-				},
-				{
-					"include": "#literal/string/quote-escape"
+					"include": "#literal/string/char-escape"
 				},
 				{
 					"include": "#literal/string/unicode-escape"
@@ -852,12 +849,8 @@
 				}
 			]
 		},
-		"literal/string/ascii-escape": {
-			"match": "\\\\(?:\\\\|n|r|t)",
-			"name": "constant.character.escape"
-		},
-		"literal/string/quote-escape": {
-			"match": "\\\\(?:\")",
+		"literal/string/char-escape": {
+			"match": "\\\\(?:\\\\|\"|n|r|t)",
 			"name": "constant.character.escape"
 		},
 		"literal/string/unicode-escape": {
