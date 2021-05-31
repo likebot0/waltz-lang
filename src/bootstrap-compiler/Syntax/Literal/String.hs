@@ -20,7 +20,7 @@ analyzer = Syntax.Shared.node do
                     [ noneOf "\\"
                     , escape
                     ]
-            , liftUnion <$> placeholder
+            , liftUnion <$> interpolation
             ]
         do
             single '\\'
