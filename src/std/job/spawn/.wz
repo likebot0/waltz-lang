@@ -1,0 +1,7 @@
+fun-type {
+	input: {
+		input: {}
+		output: _a
+	}
+	output: ~/job/handle _a
+}

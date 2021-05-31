@@ -1,0 +1,7 @@
+funarray: ~/array.infer {
+	: return array/base-address
+}
+
+funarray: ~/null-terminated-string.infer {
+	: return array/base-address
+}

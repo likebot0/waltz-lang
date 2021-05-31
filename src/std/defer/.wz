@@ -1,0 +1,10 @@
+fun-infer {
+	input: fun-infer {
+	}
+} funx {
+	value: resume {}
+
+	: input {}
+
+	: return value
+}

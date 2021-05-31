@@ -1,0 +1,6 @@
+fun condition {
+    \if condition
+    \then {
+
+    }
+}

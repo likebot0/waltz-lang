@@ -1,0 +1,154 @@
+fun input {
+	\let xs: the [ number; _ ] [ 1, 2, 4, 8 ]
+
+	: static-do {
+		: /std/assert $ (type xs) 'is-subtype-of type [ number; _ ]
+
+		: /std/assert $ (type xs) 'is-subtype-of type [ 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9; _ ]
+
+		: /std/assert $ (type xs) = type [ 1, 2, 4, 8 ]
+	}
+
+	\let ys: the [ u8 _; _ ] [ u8 1, u8 2, u8 4, u8 8 ]
+
+	: static-do {
+		: /std/assert $ (type ys) 'is-subtype-of type [ u8 _; _ ]
+
+		: /std/assert $ (type ys) 'is-subtype-of type [ u8 $ 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9; _ ]
+
+		: /std/assert $ (type ys) = type [ u8 1, u8 2, u8 4, u8 8 ]
+	}
+
+	: /std/echo "Welcome!"
+
+	\let user: {
+		name: /std/prompt "Enter your name: "
+
+		: /std/echo "Hello \(name)."
+
+		email: /std/prompt "Enter your email: "
+	}
+
+	\with {
+		/std/fs/file/ro-handle: /c { bind: "FILE *", source: "#include <stdio.h>" }
+
+		/std/fs/file/rw-handle: /c { bind: "FILE *", source: "#include <stdio.h>" }
+
+		/std/fs/file/wo-handle: /c { bind: "FILE *", source: "#include <stdio.h>" }
+
+		/std/fs/file/open: fun x {
+			: return $ /c { bind: "fopen", source: "#include <stdio.h>" } [
+				x "path"
+			]
+		}
+
+		/std/fs/file/write: fun x {
+			: return $ /c { bind: "fwrite", source: "#include <stdio.h>" } [
+				x "handle"
+				x "buffer"
+			]
+		}
+	}
+
+	\with {
+		\let job: type {
+			action: fun-type {
+				input: {}
+				output: {}
+				context: {}
+			}
+		}
+
+		\let job-queue: /std/list/empty job
+
+		/std/job/handle: {
+			job: /std/rc job
+			result: /std/rc $ /std/result x
+		}
+
+		/std/job/spawn: fun action {
+			\let result: /std/rc/uninit /std/result
+
+			\let job: {
+				action: fun _ {
+					: /std/rc/init {
+						rc: result
+						value: /std/result/from action
+					}
+				}
+			}
+
+			: /std/list/enqueue {
+				list: job-queue
+				value: job
+			}
+
+			: return {
+				job: job
+				result: result
+			}
+		}
+
+		/std/job/await: fun handle {
+			\if /std/rc/has $ handle "result", \then {
+				: return $ /std/dereference $ handle "result"
+			}
+
+			\if /std/rc/has $ handle "job", \then {
+				: /std/list/remove {
+					list: job-queue
+					value: handle "job"
+				}
+
+				: handle "job" "action" {}
+
+				: return $ /std/dereference $ handle "result"
+			}
+
+			\let k: return
+
+			: /std/list/enqueue {
+				list: job-queue
+				value: {
+					action: /std/rc/new fun _ {
+						\if /std/rc/has $ handle "result", \then {
+							: k $ /std/dereference $ handle "result"
+						}
+					}
+				}
+			}
+
+			: repeat {
+				\let job: /std/list/dequeue {
+					list: job-queue
+				}
+
+				: job "action" {}
+
+				: /std/list/enqueue {
+					list: job-queue
+					value: job
+				}
+			}
+		}
+	}
+
+	\let x: await {
+		a: spawn fun _ {
+			: /std/sleep 1000
+
+			: /std/echo "Awake!"
+
+			: return 1
+		}
+		b: spawn fun _ {
+			: /std/sleep 2000
+
+			: /std/echo "Awake!"
+
+			: return 0
+		}
+	}
+
+	: return 0
+}
