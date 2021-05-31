@@ -34,10 +34,11 @@ escape = try do
     single '\\'
 
     choice
-        [ '\t' <$ single 't'
+        [ '\\' <$ single '\\'
+        , '\"' <$ single '"'
+        , '\t' <$ single 't'
         , '\r' <$ single 'r'
         , '\n' <$ single 'n'
-        , '\"' <$ single '"'
         ]
 
 interpolation :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "grouped-expression")
