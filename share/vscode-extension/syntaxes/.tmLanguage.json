@@ -839,7 +839,7 @@
 					"include": "#literal/string/unicode-escape"
 				},
 				{
-					"include": "#literal/string/placeholder"
+					"include": "#literal/string/interpolation"
 				},
 				{
 					"match": "\\\\(.)",
@@ -864,7 +864,7 @@
 			"match": "\\\\(u\\{[0-9A-Fa-f]{1,6}\\})",
 			"name": "constant.character.escape"
 		},
-		"literal/string/placeholder": {
+		"literal/string/interpolation": {
 			"begin": "\\\\\\(",
 			"beginCaptures": {
 				"0": {
