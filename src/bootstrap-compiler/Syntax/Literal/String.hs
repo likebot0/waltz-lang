@@ -40,8 +40,8 @@ escape = try do
         , '\"' <$ single '"'
         ]
 
-placeholder :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "grouped-expression")
-placeholder = do
+interpolation :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "grouped-expression")
+interpolation = do
     try do
         single '\\'
         lookAhead $ single '('
