@@ -37,8 +37,7 @@ encodePretty :: ToJSON a => a -> Data.ByteString.Lazy.ByteString
 encodePretty = Data.Aeson.Encode.Pretty.encodePretty' Data.Aeson.Encode.Pretty.Config
     { Data.Aeson.Encode.Pretty.confIndent = Data.Aeson.Encode.Pretty.Tab
     , Data.Aeson.Encode.Pretty.confCompare = Data.Aeson.Encode.Pretty.keyOrder
-        [ "pass"
-        , "type"
+        [ "type"
         , "attributes"
         , "location"
         , "start"
