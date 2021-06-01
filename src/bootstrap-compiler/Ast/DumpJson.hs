@@ -27,7 +27,7 @@ withDefault = with @ "ast/dump-json" $ fun \ast -> do
 
     sendM $ System.Directory.createDirectoryIfMissing True outFilePath
 
-    sendM $ Bs.writeFile outAstFilePath $ encodePretty $ Aggrigate @ "semantic-analyzed" ast
+    sendM $ Bs.writeFile outAstFilePath $ encodePretty $ NodeBox @ "semantic-analyzed" ast
 
 encode :: ToJSON a => a -> Data.ByteString.Lazy.ByteString
 encode = Data.Aeson.encode
@@ -61,8 +61,8 @@ encodePretty = Data.Aeson.Encode.Pretty.encodePretty' Data.Aeson.Encode.Pretty.C
     , Data.Aeson.Encode.Pretty.confTrailingNewline = False
     }
 
-instance AttributesToJSON a => ToJSON (Aggrigate a) where
-    toJSON (Aggrigate x) = x |>
+instance AttributesToJSON a => ToJSON (NodeBox a) where
+    toJSON (NodeBox x) = x |>
         do \(x :: Ast.Node a "block-expression") -> toJSON x
         @>
         do \(x :: Ast.Node a "discard") -> toJSON x
@@ -121,15 +121,29 @@ type AttributesToJSON a =
     , ToJSON (Ast.Attributes a "statement/with")
     )
 
-newtype Aggrigate a = Aggrigate (Union (Ast.All a))
+newtype NodeBox a = NodeBox (Union (Ast.All a))
 
 newtype SerializableChildren a k = SerializableChildren (Ast.Children a k)
+
+instance ToJSON a => ToJSON (Union '[a]) where
+    toJSON x = x |>
+        do \(x :: a) -> toJSON x
+        @>
+        typesExhausted
+
+instance (ToJSON a, ToJSON b) => ToJSON (Union [a, b]) where
+    toJSON x = x |>
+        do \(x :: a) -> toJSON x
+        @>
+        do \(x :: b) -> toJSON x
+        @>
+        typesExhausted
 
 instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (SerializableChildren a k)) => ToJSON (Ast.Node a k) where
     toJSON x = object
         [ "type" .= do
-            symbolVal do
-                Proxy @ k
+            symbolVal
+                do Proxy @ k
         , "attributes" .= do
             Ast.attributes x
         , "children" .= do
@@ -139,23 +153,20 @@ instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (Ser
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "block-expression") where
     toJSON (SerializableChildren body) =
-        toJSON do
-            Aggrigate @ a . reUnion <$> body
+        toJSON do NodeBox @ a . reUnion <$> body
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "discard") where
     toJSON (SerializableChildren expression) =
-        toJSON do
-            Aggrigate @ a . liftUnion <$> expression :: Maybe (Aggrigate a)
+        toJSON do NodeBox @ a . liftUnion <$> expression :: Maybe (NodeBox a)
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "expression") where
     toJSON (SerializableChildren x) =
-        toJSON do
-            Aggrigate @ a . reUnion <$> x
+        toJSON do NodeBox @ a . reUnion <$> x
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "grouped-expression") where
     toJSON (SerializableChildren expression) = object
         [ "expression" .= do
-            Aggrigate @ a . liftUnion $ expression
+            NodeBox @ a . liftUnion $ expression
         ]
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "identifier") where
@@ -165,22 +176,21 @@ instance AttributesToJSON a => ToJSON (SerializableChildren a "identifier") wher
 instance AttributesToJSON a => ToJSON (SerializableChildren a "key-value") where
     toJSON (SerializableChildren (identifier, expression)) = object
         [ "identifier" .= do
-            Aggrigate @ a . liftUnion $ identifier
+            NodeBox @ a . liftUnion $ identifier
         , "expression" .= do
-            Aggrigate @ a . liftUnion $ expression
+            NodeBox @ a . liftUnion $ expression
         ]
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "lambda-expression") where
     toJSON (SerializableChildren (identifier, body)) = object
         [ "identifier" .= identifier
         , "body" .= do
-            Aggrigate @ a . reUnion <$> body
+            NodeBox @ a . reUnion <$> body
         ]
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "literal/array") where
     toJSON (SerializableChildren body) =
-        toJSON do
-            Aggrigate @ a . reUnion <$> body
+        toJSON do NodeBox @ a . reUnion <$> body
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "literal/number") where
     toJSON (SerializableChildren x) =
@@ -188,43 +198,49 @@ instance AttributesToJSON a => ToJSON (SerializableChildren a "literal/number") 
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "literal/object") where
     toJSON (SerializableChildren body) =
-        toJSON do
-            Aggrigate @ a . reUnion <$> body
+        toJSON do NodeBox @ a . reUnion <$> body
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "literal/string") where
-    toJSON (SerializableChildren x) =
-        toJSON x
+    toJSON (SerializableChildren x) = f <$> x
+
+f :: forall a. Union [String, Ast.Node a "grouped-expression"] -> Value
+f =
+    do \(x :: String) -> toJSON x
+    @>
+    do \(x :: Ast.Node a "grouped-expression") -> toJSON x
+    @>
+    typesExhausted
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "type-expression") where
     toJSON (SerializableChildren expression) = object
         [ "expression" .= do
-            Aggrigate @ a . liftUnion $ expression
+            NodeBox @ a . liftUnion $ expression
         ]
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "root") where
     toJSON (SerializableChildren body) =
         toJSON do
-            Aggrigate @ a . reUnion <$> body
+            NodeBox @ a . reUnion <$> body
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "root/statement/base") where
     toJSON (SerializableChildren identifier) =
         toJSON do
-            Aggrigate @ a . liftUnion $ identifier
+            NodeBox @ a . liftUnion $ identifier
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "statement/if") where
     toJSON (SerializableChildren (predicate, body)) = object
         [ "predicate" .= do
-            Aggrigate @ a . liftUnion $ predicate :: Aggrigate a
+            NodeBox @ a . liftUnion $ predicate :: NodeBox a
         , "body" .= do
-            Aggrigate @ a . reUnion <$> body
+            NodeBox @ a . reUnion <$> body
         ]
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "statement/let") where
     toJSON (SerializableChildren x) =
         toJSON do
-            Aggrigate @ a $ liftUnion x
+            NodeBox @ a $ liftUnion x
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "statement/with") where
     toJSON (SerializableChildren body) =
         toJSON do
-            Aggrigate @ a . reUnion <$> body
+            NodeBox @ a . reUnion <$> body
