@@ -13,6 +13,7 @@ import qualified Data.Aeson
 import qualified Data.Aeson.Encode.Pretty
 import qualified Data.ByteString.Lazy
 import qualified Data.ByteString.Lazy.Char8 as Bs
+import qualified Data.Text
 import qualified Diagnostic
 import qualified System.Directory
 import qualified TypeFun.Data.List

@@ -29,13 +29,13 @@ data Position =
         !Int
 
 showSeverity = 
-    do \(x :: Proxy "error") -> symbolVal x
+    do symbolVal @ "error" @ Proxy
     @>
-    do \(x :: Proxy "warning") -> symbolVal x
+    do symbolVal @ "warning" @ Proxy
     @>
-    do \(x :: Proxy "information") -> symbolVal x
+    do symbolVal @ "information" @ Proxy
     @>
-    do \(x :: Proxy "hint") -> symbolVal x
+    do symbolVal @ "hint" @ Proxy
     @>
     typesExhausted
 
