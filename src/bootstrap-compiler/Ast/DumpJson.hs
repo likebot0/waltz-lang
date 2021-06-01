@@ -16,7 +16,6 @@ import qualified Data.ByteString.Lazy.Char8 as Bs
 import qualified Data.Text
 import qualified Diagnostic
 import qualified System.Directory
-import qualified TypeFun.Data.List
 
 withDefault = with @ "ast/dump-json" $ fun \ast -> do
     identifier <- call @ "get-current-src-id" ()

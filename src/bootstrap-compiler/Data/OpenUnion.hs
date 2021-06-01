@@ -11,14 +11,14 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Data.OpenUnion
-  ( Union,
-    (@>),
-    liftUnion,
-    reUnion,
-    flattenUnion,
-    restrict,
-    typesExhausted,
-  )
+    ( Union
+    , (@>)
+    , liftUnion
+    , reUnion
+    , flattenUnion
+    , restrict
+    , typesExhausted
+    )
 where
 
 import Control.Exception
