@@ -93,7 +93,7 @@ instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (Box
     toJSON x =
         object
             [ "type" .= do
-                symbolVal $ Proxy @ k
+                toJSON $ show $ Proxy @ k
             , "attributes" .= do
                 Ast.attributes x
             , "children" .= do
