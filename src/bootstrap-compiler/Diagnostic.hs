@@ -41,20 +41,23 @@ instance Show Diagnostic where
         ]
 
 instance Data.Aeson.ToJSON Diagnostic where
-    toJSON (Diagnostic severity location message) = object
-        [ "severity" .= show severity
-        , "location" .= location
-        , "message" .= message 
-        ]
+    toJSON (Diagnostic severity location message) =
+        object
+            [ "severity" .= show severity
+            , "location" .= location
+            , "message" .= message 
+            ]
 
 instance Data.Aeson.ToJSON Location where
-    toJSON (Location start end) = object
-        [ "start" .= start
-        , "end" .= end
-        ]
+    toJSON (Location start end) =
+        object
+            [ "start" .= start
+            , "end" .= end
+            ]
 
 instance Data.Aeson.ToJSON Position where
-    toJSON (Position lineNumber column) = object
-        [ "line-number" .= lineNumber
-        , "column" .= column
-        ]
+    toJSON (Position lineNumber column) =
+        object
+            [ "line-number" .= lineNumber
+            , "column" .= column
+            ]
