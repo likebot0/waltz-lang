@@ -29,16 +29,17 @@ data Position =
         !Int
 
 instance Show Diagnostic where
-    show (Diagnostic severity (Location (Position l c) _) message) = mconcat
-        [ "("
-        , show l
-        , ","
-        , show c
-        , "): "
-        , show severity
-        , ": "
-        , message
-        ]
+    show (Diagnostic severity (Location (Position l c) _) message) =
+        mconcat
+            [ "("
+            , show l
+            , ","
+            , show c
+            , "): "
+            , show severity
+            , ": "
+            , message
+            ]
 
 instance Data.Aeson.ToJSON Diagnostic where
     toJSON (Diagnostic severity location message) =
