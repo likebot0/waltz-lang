@@ -33,9 +33,6 @@ import Prelude
 import TypeFun.Data.List (Delete, Elem, SubList, (:++:))
 import qualified Data.Aeson
 
--- | The @Union@ type - the phantom parameter @s@ is a list of types
--- denoting what this @Union@ might contain.
--- The value contained is one of those types.
 newtype Union (s :: [*]) = Union Dynamic
 
 instance Show (Union '[]) where
