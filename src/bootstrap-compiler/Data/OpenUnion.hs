@@ -10,7 +10,6 @@ module Data.OpenUnion
     )
 where
 
-import Control.Exception
 import Data.Dynamic
 import Prelude
 import TypeFun.Data.List (Delete, Elem, SubList, (:++:))
