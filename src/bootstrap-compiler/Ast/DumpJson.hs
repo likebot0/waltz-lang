@@ -46,15 +46,10 @@ encodePretty = Data.Aeson.Encode.Pretty.encodePretty' Data.Aeson.Encode.Pretty.C
         , "line-number"
         , "column"
         , "data"
-        , "predicate-previous-comments"
         , "predicate"
         , "head"
-        , "body-previous-comments"
         , "body"
-        , "body-next-comments"
         , "identifier"
-        , "identifier-next-comments"
-        , "expression-previous-comments"
         , "expression"
         ]
     , Data.Aeson.Encode.Pretty.confNumFormat = Data.Aeson.Encode.Pretty.Generic
