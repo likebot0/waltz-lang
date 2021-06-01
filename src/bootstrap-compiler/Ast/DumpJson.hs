@@ -89,7 +89,7 @@ newtype SerializableChildren a k = SerializableChildren (Ast.Children a k)
 instance ToJSON (Union '[]) where
     toJSON x = Null
 
-instance (ToJSON a, Typeable a, ToJSON (Union (TypeFun.Data.List.Delete a b))) => ToJSON (Union (a : b)) where
+instance (Typeable a, ToJSON a, ToJSON (Union (TypeFun.Data.List.Delete a b))) => ToJSON (Union (a : b)) where
     toJSON x = case restrict @ a x of
         Right x -> toJSON x
         Left x -> toJSON x
