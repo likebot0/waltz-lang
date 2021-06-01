@@ -90,11 +90,7 @@ instance (Exception e, Typeable e, Typeable es, Typeable e1, Exception (Union (D
 instance Data.Aeson.ToJSON (Union '[]) where
     toJSON x = Data.Aeson.Null
 
-instance
-    ( Typeable a
-    , Data.Aeson.ToJSON a
-    , Data.Aeson.ToJSON (Union (TypeFun.Data.List.Delete a b))
-    ) => Data.Aeson.ToJSON (Union (a : b)) where
+instance (Typeable a, Data.Aeson.ToJSON a, Data.Aeson.ToJSON (Union (TypeFun.Data.List.Delete a b))) => Data.Aeson.ToJSON (Union (a : b)) where
     toJSON x = case restrict @ a x of
         Right x -> Data.Aeson.toJSON x
         Left x -> Data.Aeson.toJSON x
