@@ -3,7 +3,7 @@
 module Diagnostic where
 
 import Global
-import Data.Aeson ( encode, object, KeyValue((.=)), ToJSON(toJSON) )
+import Data.Aeson
 
 data Diagnostic =
     Diagnostic
