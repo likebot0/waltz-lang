@@ -89,11 +89,12 @@ type AttributesToJSON a =
     )
 
 instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (ChildrenContainer a k)) => ToJSON (Ast.Node a k) where
-    toJSON x = object
-        [ "type" .= symbolVal do Proxy @ k
-        , "attributes" .= Ast.attributes x
-        , "children" .= ChildrenContainer @ a @ k do Ast.children x
-        ]
+    toJSON x =
+        object
+            [ "type" .= symbolVal do Proxy @ k
+            , "attributes" .= Ast.attributes x
+            , "children" .= ChildrenContainer @ a @ k do Ast.children x
+            ]
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "block-expression") where
     toJSON (ChildrenContainer body) =
@@ -116,16 +117,18 @@ instance AttributesToJSON a => ToJSON (ChildrenContainer a "identifier") where
         toJSON x
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "key-value") where
-    toJSON (ChildrenContainer (left, right)) = object
-        [ "left" .= left
-        , "right" .= right
-        ]
+    toJSON (ChildrenContainer (left, right)) =
+        object
+            [ "left" .= left
+            , "right" .= right
+            ]
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "lambda-expression") where
-    toJSON (ChildrenContainer (parameter, body)) = object
-        [ "parameter" .= parameter
-        , "body" .= body
-        ]
+    toJSON (ChildrenContainer (parameter, body)) =
+        object
+            [ "parameter" .= parameter
+            , "body" .= body
+            ]
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "literal/array") where
     toJSON (ChildrenContainer body) =
@@ -144,9 +147,10 @@ instance AttributesToJSON a => ToJSON (ChildrenContainer a "literal/string") whe
         toJSON x
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "type-expression") where
-    toJSON (ChildrenContainer expression) = object
-        [ "expression" .= expression
-        ]
+    toJSON (ChildrenContainer expression) =
+        object
+            [ "expression" .= expression
+            ]
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "root") where
     toJSON (ChildrenContainer body) =
@@ -157,10 +161,11 @@ instance AttributesToJSON a => ToJSON (ChildrenContainer a "root/statement/base"
         toJSON identifier
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "statement/if") where
-    toJSON (ChildrenContainer (condition, body)) = object
-        [ "condition" .= condition
-        , "body" .= body
-        ]
+    toJSON (ChildrenContainer (condition, body)) =
+        object
+            [ "condition" .= condition
+            , "body" .= body
+            ]
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "statement/let") where
     toJSON (ChildrenContainer x) =
