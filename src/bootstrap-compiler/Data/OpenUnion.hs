@@ -106,7 +106,6 @@ r @> l = either l r . restrict
 
 infixr 2 @>
 
-
 (@!>) :: (Typeable a, Elem a s) => (a -> b) -> (Union (Delete a s) -> b) -> Union s -> b
 r @!> l = either l r . restrict
 {-# INLINE (@!>) #-}
