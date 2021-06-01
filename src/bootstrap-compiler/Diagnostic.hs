@@ -42,13 +42,10 @@ instance Show Diagnostic where
 
 instance Data.Aeson.ToJSON Diagnostic where
     toJSON (Diagnostic severity location message) = object
-        [ "severity" .= severity
+        [ "severity" .= show severity
         , "location" .= location
         , "message" .= message 
         ]
-
-instance Data.Aeson.ToJSON Severity where
-    toJSON x = toJSON $ show x
 
 instance Data.Aeson.ToJSON Location where
     toJSON (Location start end) = object
