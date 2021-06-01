@@ -67,38 +67,29 @@ instance (Typeable a, Ord a, Ord (Union (Delete a as))) => Ord (Union (a ': as))
             (Left _, Right _) -> LT
 
 instance (Exception e) => Exception (Union (e ': '[])) where
-  toException u = case restrict u of
-    Left (sub :: Union '[]) -> typesExhausted sub
-    Right (e :: e) -> toException e
-  fromException some = case fromException some of
-    Just (e :: e) -> Just (liftUnion e)
-    Nothing -> Nothing
+    toException u = case restrict u of
+        Left (sub :: Union '[]) -> typesExhausted sub
+        Right (e :: e) -> toException e
+    fromException some = case fromException some of
+        Just (e :: e) -> Just (liftUnion e)
+        Nothing -> Nothing
 
-instance
-  ( Exception e,
-    Typeable e,
-    Typeable es,
-    Typeable e1,
-    Exception (Union (Delete e (e1 ': es))),
-    SubList (Delete e (e1 ': es)) (e ': e1 ': es)
-  ) =>
-  Exception (Union (e ': e1 ': es))
-  where
-  toException u = case restrict u of
-    Left (sub :: Union (Delete e (e1 ': es))) -> toException sub
-    Right (e :: e) -> toException e
+instance (Exception e, Typeable e, Typeable es, Typeable e1, Exception (Union (Delete e (e1 ': es))), SubList (Delete e (e1 ': es)) (e ': e1 ': es)) => Exception (Union (e ': e1 ': es)) where
+    toException u = case restrict u of
+        Left (sub :: Union (Delete e (e1 ': es))) -> toException sub
+        Right (e :: e) -> toException e
 
-  fromException some = case fromException some of
-    Just (e :: e) -> Just (liftUnion e)
-    Nothing ->
-      let sub :: Maybe (Union (Delete e (e1 ': es)))
-          sub = fromException some
-       in fmap reUnion sub
+    fromException some = case fromException some of
+        Just (e :: e) -> Just (liftUnion e)
+        Nothing ->
+            let sub :: Maybe (Union (Delete e (e1 ': es)))
+                sub = fromException some
+            in fmap reUnion sub
 
 type family FlatElems a :: [*] where
-  FlatElems '[] = '[]
-  FlatElems ((Union s) : ss) = s :++: FlatElems ss
-  FlatElems (x : s) = x : FlatElems s
+    FlatElems '[] = '[]
+    FlatElems (Union s : ss) = s :++: FlatElems ss
+    FlatElems (x : s) = x : FlatElems s
 
 -- general note: try to keep from re-constructing Unions if an existing one
 -- can just be type-coerced.
@@ -123,22 +114,18 @@ liftUnion :: (Typeable a, Elem a s) => a -> Union s
 liftUnion = Union . toDyn
 {-# INLINE liftUnion #-}
 
--- | Narrow down a @Union@.
 restrict :: Typeable a => Union s -> Either (Union (Delete a s)) a
 restrict (Union d) = maybe (Left $ Union d) Right $ fromDynamic d
 {-# INLINE restrict #-}
 
--- | Generalize a @Union@.
 reUnion :: (SubList s s') => Union s -> Union s'
 reUnion (Union d) = Union d
 {-# INLINE reUnion #-}
 
--- | Flatten a @Union@.
 flattenUnion :: Union s -> Union (FlatElems s)
 flattenUnion (Union d) = Union d
 {-# INLINE flattenUnion #-}
 
--- | Use this in places where all the @Union@ed options have been exhausted.
 typesExhausted :: Union '[] -> a
 typesExhausted = error "Union types exhausted - empty Union"
 {-# INLINE typesExhausted #-}
