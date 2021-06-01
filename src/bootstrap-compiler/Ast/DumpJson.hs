@@ -103,8 +103,8 @@ instance AttributesToJSON a => ToJSON (ChildrenContainer a "discard") where
         toJSON expression
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "expression") where
-    toJSON (ChildrenContainer x) =
-        toJSON x
+    toJSON (ChildrenContainer terms) =
+        toJSON terms
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "grouped-expression") where
     toJSON (ChildrenContainer expression) =
