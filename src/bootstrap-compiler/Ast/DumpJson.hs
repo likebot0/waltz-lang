@@ -96,14 +96,9 @@ instance (Typeable a, ToJSON a, ToJSON (Union (TypeFun.Data.List.Delete a b))) =
 
 instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (SerializableChildren a k)) => ToJSON (Ast.Node a k) where
     toJSON x = object
-        [ "type" .= do
-            symbolVal
-                do Proxy @ k
-        , "attributes" .= do
-            Ast.attributes x
-        , "children" .= do
-            SerializableChildren @ a @ k do
-                Ast.children x
+        [ "type" .= symbolVal do Proxy @ k
+        , "attributes" .= Ast.attributes x
+        , "children" .= SerializableChildren @ a @ k do Ast.children x
         ]
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "block-expression") where
