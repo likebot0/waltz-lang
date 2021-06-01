@@ -28,8 +28,6 @@ data Position =
         !Int
         !Int
 
-
-
 instance Show Diagnostic where
     show (Diagnostic severity (Location (Position l c) _) message) = mconcat
         [ "("
@@ -50,16 +48,7 @@ instance Data.Aeson.ToJSON Diagnostic where
         ]
 
 instance Data.Aeson.ToJSON Severity where
-    toJSON =
-        do \(x :: Proxy "error") -> toJSON $ symbolVal x
-        @>
-        do \(x :: Proxy "warning") -> toJSON $ symbolVal x
-        @>
-        do \(x :: Proxy "information") -> toJSON $ symbolVal x
-        @>
-        do \(x :: Proxy "hint") -> toJSON $ symbolVal x
-        @>
-        typesExhausted
+    toJSON x = toJSON $ show x
 
 instance Data.Aeson.ToJSON Location where
     toJSON (Location start end) = object
