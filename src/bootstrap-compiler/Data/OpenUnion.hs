@@ -104,12 +104,7 @@ type family FlatElems a :: [*] where
 -- can just be type-coerced.
 
 -- | `restrict` in right-fixable style.
-(@>) ::
-  Typeable a =>
-  (a -> b) ->
-  (Union (Delete a s) -> b) ->
-  Union s ->
-  b
+(@>) :: Typeable a => (a -> b) -> (Union (Delete a s) -> b) -> Union s -> b
 r @> l = either l r . restrict
 
 infixr 2 @>
@@ -117,12 +112,7 @@ infixr 2 @>
 {-# INLINE (@>) #-}
 
 -- | `restrict` in right-fixable style with existance restriction.
-(@!>) ::
-  (Typeable a, Elem a s) =>
-  (a -> b) ->
-  (Union (Delete a s) -> b) ->
-  Union s ->
-  b
+(@!>) :: (Typeable a, Elem a s) => (a -> b) -> (Union (Delete a s) -> b) -> Union s -> b
 r @!> l = either l r . restrict
 
 infixr 2 @!>

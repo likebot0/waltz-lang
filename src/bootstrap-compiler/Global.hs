@@ -11,7 +11,7 @@ module Global
 import Prelude hiding (return)
 import Control.Monad.Freer (Eff, Member, Members, LastMember, runM, send, sendM)
 import Control.Monad.Trans (lift)
-import "open-union" Data.OpenUnion (Union, (@>), liftUnion, restrict, reUnion, typesExhausted)
+import Data.OpenUnion
 import GHC.TypeLits (KnownSymbol, Symbol, symbolVal)
 import TypeFun.Data.List ((:++:))
 import qualified Prelude
