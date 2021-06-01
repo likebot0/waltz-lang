@@ -5,7 +5,7 @@ module Ast.DumpJson where
 import Global
 import Context.Funs
 import Data.Aeson
-import Data.Typeable ( Typeable )
+import Data.Typeable (Typeable)
 import qualified Ast
 import qualified Ast.Semantic
 import qualified Ast.Syntax
@@ -13,8 +13,6 @@ import qualified Data.Aeson
 import qualified Data.Aeson.Encode.Pretty
 import qualified Data.ByteString.Lazy
 import qualified Data.ByteString.Lazy.Char8 as Bs
-import qualified Data.Text
-import qualified Diagnostic
 import qualified System.Directory
 
 withDefault = with @ "ast/dump-json" $ fun \ast -> do
