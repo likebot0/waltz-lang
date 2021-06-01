@@ -139,7 +139,7 @@ instance AttributesToJSON a => ToJSON (SerializableChildren a "literal/object") 
         toJSON body
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "literal/string") where
-    toJSON (SerializableChildren x) = ""
+    toJSON (SerializableChildren x) = toJSON x
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "type-expression") where
     toJSON (SerializableChildren expression) = object
