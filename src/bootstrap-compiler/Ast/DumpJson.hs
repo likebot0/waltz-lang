@@ -40,7 +40,6 @@ encodePretty = Data.Aeson.Encode.Pretty.encodePretty' Data.Aeson.Encode.Pretty.C
         [ "pass"
         , "type"
         , "attributes"
-        , "severity"
         , "location"
         , "start"
         , "end"
