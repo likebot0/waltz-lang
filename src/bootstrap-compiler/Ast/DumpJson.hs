@@ -140,7 +140,8 @@ instance AttributesToJSON a => ToJSON (ChildrenContainer a "literal/object") whe
         toJSON body
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "literal/string") where
-    toJSON (ChildrenContainer x) = toJSON x
+    toJSON (ChildrenContainer x) =
+        toJSON x
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "type-expression") where
     toJSON (ChildrenContainer expression) = object
