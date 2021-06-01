@@ -15,6 +15,7 @@ import qualified Data.ByteString.Lazy
 import qualified Data.ByteString.Lazy.Char8 as Bs
 import qualified Diagnostic
 import qualified System.Directory
+import qualified TypeFun.Data.List
 
 withDefault = with @ "ast/dump-json" $ fun \ast -> do
     identifier <- call @ "get-current-src-id" ()
@@ -128,7 +129,7 @@ newtype SerializableChildren a k = SerializableChildren (Ast.Children a k)
 instance ToJSON (Union '[]) where
     toJSON x = Null
 
-instance (ToJSON a, Typeable a, ToJSON (Union b)) => ToJSON (Union (a : b)) where
+instance (ToJSON a, Typeable a, ToJSON (Union (TypeFun.Data.List.Delete a b))) => ToJSON (Union (a : b)) where
     toJSON x = case restrict @ a x of
         Right x -> toJSON x
         Left x -> toJSON x
