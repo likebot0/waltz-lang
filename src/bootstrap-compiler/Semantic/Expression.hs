@@ -134,7 +134,7 @@ analyze x = do
                 pure
                     ( liftUnion y
                     , Ast.Syntax.location $ Ast.attributes x
-                    , liftUnion $ Ast.Semantic.Type @ "string" $ Ast.children y
+                    , liftUnion $ Ast.Semantic.Type @ "string" $ ""
                     )
             @>
             do \(x :: Ast.Node "syntax-analyzed" "type-expression") -> do

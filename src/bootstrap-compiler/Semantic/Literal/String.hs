@@ -10,4 +10,4 @@ analyze :: Semantic.Analyzer.Analyze "literal/string"
 analyze x = do
     pure $ Ast.Node
         do Ast.attributes x
-        do Ast.children x
+        do [ liftUnion "" ]
