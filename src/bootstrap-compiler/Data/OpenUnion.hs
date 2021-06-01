@@ -15,7 +15,6 @@ module Data.OpenUnion
     , (@>)
     , inject
     , reUnion
-    , flattenUnion
     , restrict
     , typesExhausted
     )
