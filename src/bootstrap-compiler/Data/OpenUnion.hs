@@ -40,11 +40,11 @@ instance Show (Union '[]) where
 
 instance (Typeable a, Show a, Show (Union (Delete a as))) => Show (Union (a : as)) where
     show x = case restrict @ a x of
-        Left rest -> show rest
-        Right a -> show a
+        Left x -> show x
+        Right x -> show x
 
 instance Eq (Union '[]) where
-    a == _ = typesExhausted a
+    x == _ = typesExhausted x
 
 instance (Typeable a, Eq a, Eq (Union (Delete a as))) => Eq (Union (a : as)) where
     x == y =
@@ -54,7 +54,7 @@ instance (Typeable a, Eq a, Eq (Union (Delete a as))) => Eq (Union (a : as)) whe
             _ -> False
 
 instance Ord (Union '[]) where
-    compare a _ = typesExhausted a
+    compare x _ = typesExhausted x
 
 instance (Typeable a, Ord a, Ord (Union (Delete a as))) => Ord (Union (a ': as)) where
     compare x y =
@@ -63,26 +63,6 @@ instance (Typeable a, Ord a, Ord (Union (Delete a as))) => Ord (Union (a ': as))
             (Left x, Left y) -> compare x y
             (Right _, Left _) -> GT
             (Left _, Right _) -> LT
-
-instance (Exception e) => Exception (Union (e ': '[])) where
-    toException u = case restrict u of
-        Left (sub :: Union '[]) -> typesExhausted sub
-        Right (e :: e) -> toException e
-    fromException some = case fromException some of
-        Just (e :: e) -> Just (liftUnion e)
-        Nothing -> Nothing
-
-instance (Exception e, Typeable e, Typeable es, Typeable e1, Exception (Union (Delete e (e1 ': es))), SubList (Delete e (e1 ': es)) (e ': e1 ': es)) => Exception (Union (e ': e1 ': es)) where
-    toException u = case restrict u of
-        Left (sub :: Union (Delete e (e1 ': es))) -> toException sub
-        Right (e :: e) -> toException e
-
-    fromException some = case fromException some of
-        Just (e :: e) -> Just (liftUnion e)
-        Nothing ->
-            let sub :: Maybe (Union (Delete e (e1 ': es)))
-                sub = fromException some
-            in fmap reUnion sub
 
 instance Data.Aeson.ToJSON (Union '[]) where
     toJSON x = Data.Aeson.Null
