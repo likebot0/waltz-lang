@@ -73,11 +73,6 @@ instance (Typeable a, Data.Aeson.ToJSON a, Data.Aeson.ToJSON (Union (TypeFun.Dat
             Right x -> Data.Aeson.toJSON x
             Left x -> Data.Aeson.toJSON x
 
-type family FlatElems a :: [*] where
-    FlatElems '[] = '[]
-    FlatElems (Union s : ss) = s :++: FlatElems ss
-    FlatElems (x : s) = x : FlatElems s
-
 (@>) :: Typeable a => (a -> b) -> (Union (Delete a s) -> b) -> Union s -> b
 r @> l = either l r . restrict
 {-# INLINE (@>) #-}
@@ -101,10 +96,6 @@ restrict (Union d) = maybe (Left $ Union d) Right $ fromDynamic d
 reUnion :: (SubList s s') => Union s -> Union s'
 reUnion (Union d) = Union d
 {-# INLINE reUnion #-}
-
-flattenUnion :: Union s -> Union (FlatElems s)
-flattenUnion (Union d) = Union d
-{-# INLINE flattenUnion #-}
 
 typesExhausted :: Union '[] -> a
 typesExhausted = error "Union types exhausted - empty Union"
