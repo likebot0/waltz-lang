@@ -91,9 +91,12 @@ type AttributesToJSON a =
 instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (BoxedChildren a k)) => ToJSON (Ast.Node a k) where
     toJSON x =
         object
-            [ "type" .= symbolVal do Proxy @ k
-            , "attributes" .= Ast.attributes x
-            , "children" .= BoxedChildren @ a @ k do Ast.children x
+            [ "type" .= do
+                symbolVal $ Proxy @ k
+            , "attributes" .= do
+                Ast.attributes x
+            , "children" .= do
+                BoxedChildren @ a @ k $ Ast.children x
             ]
 
 instance AttributesToJSON a => ToJSON (BoxedChildren a "block-expression") where
