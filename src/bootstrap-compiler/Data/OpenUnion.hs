@@ -71,13 +71,13 @@ inject :: (Typeable a, Elem a s) => a -> Union s
 inject = Union . toDyn
 {-# INLINE inject #-}
 
-restrict :: Typeable a => Union s -> Either (Union (Delete a s)) a
-restrict (Union d) = maybe (Left $ Union d) Right $ fromDynamic d
-{-# INLINE restrict #-}
-
 reinterpret :: (SubList s s') => Union s -> Union s'
 reinterpret (Union d) = Union d
 {-# INLINE reinterpret #-}
+
+restrict :: Typeable a => Union s -> Either (Union (Delete a s)) a
+restrict (Union d) = maybe (Left $ Union d) Right $ fromDynamic d
+{-# INLINE restrict #-}
 
 typesExhausted :: Union '[] -> a
 typesExhausted = error "Union types exhausted - empty Union"
