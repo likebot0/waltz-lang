@@ -100,24 +100,18 @@ type family FlatElems a :: [*] where
     FlatElems (Union s : ss) = s :++: FlatElems ss
     FlatElems (x : s) = x : FlatElems s
 
--- general note: try to keep from re-constructing Unions if an existing one
--- can just be type-coerced.
-
--- | `restrict` in right-fixable style.
 (@>) :: Typeable a => (a -> b) -> (Union (Delete a s) -> b) -> Union s -> b
 r @> l = either l r . restrict
+{-# INLINE (@>) #-}
 
 infixr 2 @>
 
-{-# INLINE (@>) #-}
 
--- | `restrict` in right-fixable style with existance restriction.
 (@!>) :: (Typeable a, Elem a s) => (a -> b) -> (Union (Delete a s) -> b) -> Union s -> b
 r @!> l = either l r . restrict
+{-# INLINE (@!>) #-}
 
 infixr 2 @!>
-
-{-# INLINE (@!>) #-}
 
 liftUnion :: (Typeable a, Elem a s) => a -> Union s
 liftUnion = Union . toDyn
