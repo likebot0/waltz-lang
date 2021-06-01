@@ -55,20 +55,14 @@ instance (Typeable a, Eq a, Eq (Union (Delete a as))) => Eq (Union (a : as)) whe
           _ -> False
 
 instance Ord (Union '[]) where
-  compare a _ = typesExhausted a
+    compare a _ = typesExhausted a
 
-instance
-  (Ord a, Typeable a, Ord (Union (Delete a as))) =>
-  Ord (Union (a ': as))
-  where
-  compare u1 u2 =
-    let r1 = restrict u1
-        r2 = restrict u2
-     in case (r1, r2) of
-          (Right (a :: a), Right b) -> compare a b
-          (Left a, Left b) -> compare a b
-          (Right _, Left _) -> GT
-          (Left _, Right _) -> LT
+instance (Typeable a, Ord a, Ord (Union (Delete a as))) => Ord (Union (a ': as)) where
+  compare x y = case (restrict @ a x, restrict @ a y) of
+      (Right x, Right y) -> compare x y
+      (Left x, Left y) -> compare x y
+      (Right _, Left _) -> GT
+      (Left _, Right _) -> LT
 
 instance (Exception e) => Exception (Union (e ': '[])) where
   toException u = case restrict u of
