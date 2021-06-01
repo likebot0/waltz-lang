@@ -131,13 +131,10 @@ instance ToJSON a => ToJSON (Union '[a]) where
         @>
         typesExhausted
 
-instance (ToJSON a, ToJSON b) => ToJSON (Union [a, b]) where
-    toJSON x = x |>
-        do \(x :: a) -> toJSON x
-        @>
-        do \(x :: b) -> toJSON x
-        @>
-        typesExhausted
+instance (ToJSON a, ToJSON (Union b)) => ToJSON (Union (a : b)) where
+    toJSON x = case restrict @ a x of
+        Right x -> toJSON x
+        Left x -> toJSON x
 
 instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (SerializableChildren a k)) => ToJSON (Ast.Node a k) where
     toJSON x = object
