@@ -56,14 +56,6 @@ encodePretty = Data.Aeson.Encode.Pretty.encodePretty' Data.Aeson.Encode.Pretty.C
     , Data.Aeson.Encode.Pretty.confTrailingNewline = False
     }
 
-instance ToJSON (Union '[]) where
-    toJSON x = Null
-
-instance (Typeable a, ToJSON a, ToJSON (Union (TypeFun.Data.List.Delete a b))) => ToJSON (Union (a : b)) where
-    toJSON x = case restrict @ a x of
-        Right x -> toJSON x
-        Left x -> toJSON x
-
 newtype BoxedChildren a k = BoxedChildren (Ast.Children a k)
 
 type AttributesToJSON a = 

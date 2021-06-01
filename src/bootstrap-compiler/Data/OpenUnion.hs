@@ -31,6 +31,7 @@ import Data.Typeable
 
 import Prelude
 import TypeFun.Data.List (Delete, Elem, SubList, (:++:))
+import qualified Data.Aeson
 
 -- | The @Union@ type - the phantom parameter @s@ is a list of types
 -- denoting what this @Union@ might contain.
@@ -85,6 +86,14 @@ instance (Exception e, Typeable e, Typeable es, Typeable e1, Exception (Union (D
             let sub :: Maybe (Union (Delete e (e1 ': es)))
                 sub = fromException some
             in fmap reUnion sub
+
+instance Data.Aeson.ToJSON (Union '[]) where
+    toJSON x = Null
+
+instance (Typeable a, ToJSON a, ToJSON (Union (TypeFun.Data.List.Delete a b))) => Data.Aeson.ToJSON (Union (a : b)) where
+    toJSON x = case restrict @ a x of
+        Right x -> toJSON x
+        Left x -> toJSON x
 
 type family FlatElems a :: [*] where
     FlatElems '[] = '[]
