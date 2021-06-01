@@ -1,5 +1,4 @@
 {-# LANGUAGE CPP #-}
-{-# LANGUAGE UndecidableInstances #-}
 
 module Data.OpenUnion
     ( Union
