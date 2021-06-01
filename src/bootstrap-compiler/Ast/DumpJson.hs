@@ -99,18 +99,16 @@ instance AttributesToJSON a => ToJSON (SerializableChildren a "block-expression"
         toJSON body
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "discard") where
-    toJSON (SerializableChildren expression) = object
-        [ "expression" .= expression
-        ]
+    toJSON (SerializableChildren expression) =
+        toJSON expression
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "expression") where
     toJSON (SerializableChildren x) =
         toJSON x
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "grouped-expression") where
-    toJSON (SerializableChildren expression) = object
-        [ "expression" .= expression
-        ]
+    toJSON (SerializableChildren expression) =
+        toJSON expression
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "identifier") where
     toJSON (SerializableChildren x) =
