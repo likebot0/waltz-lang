@@ -45,7 +45,7 @@ encodePretty = Data.Aeson.Encode.Pretty.encodePretty' Data.Aeson.Encode.Pretty.C
         , "end"
         , "line-number"
         , "column"
-        , "predicate"
+        , "condition"
         , "parameter"
         , "body"
         , "identifier"
@@ -155,8 +155,8 @@ instance AttributesToJSON a => ToJSON (ChildrenContainer a "root/statement/base"
         toJSON identifier
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "statement/if") where
-    toJSON (ChildrenContainer (predicate, body)) = object
-        [ "predicate" .= predicate
+    toJSON (ChildrenContainer (condition, body)) = object
+        [ "condition" .= condition
         , "body" .= body
         ]
 
