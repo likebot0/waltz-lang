@@ -99,7 +99,6 @@ executable bootstrap-compiler
     freer-simple,
     megaparsec,
     mtl,
-    open-union,
     process,
     split,
     text,
