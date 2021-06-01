@@ -55,6 +55,23 @@ encodePretty = Data.Aeson.Encode.Pretty.encodePretty' Data.Aeson.Encode.Pretty.C
     , Data.Aeson.Encode.Pretty.confTrailingNewline = False
     }
 
+newtype SerializableChildren a k = SerializableChildren (Ast.Children a k)
+
+instance ToJSON (Union '[]) where
+    toJSON x = Null
+
+instance (Typeable a, ToJSON a, ToJSON (Union (TypeFun.Data.List.Delete a b))) => ToJSON (Union (a : b)) where
+    toJSON x = case restrict @ a x of
+        Right x -> toJSON x
+        Left x -> toJSON x
+
+instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (SerializableChildren a k)) => ToJSON (Ast.Node a k) where
+    toJSON x = object
+        [ "type" .= symbolVal do Proxy @ k
+        , "attributes" .= Ast.attributes x
+        , "children" .= SerializableChildren @ a @ k do Ast.children x
+        ]
+
 type AttributesToJSON a = 
     ( Typeable a
     , KnownSymbol a
@@ -76,23 +93,6 @@ type AttributesToJSON a =
     , ToJSON (Ast.Attributes a "statement/let")
     , ToJSON (Ast.Attributes a "statement/with")
     )
-
-newtype SerializableChildren a k = SerializableChildren (Ast.Children a k)
-
-instance ToJSON (Union '[]) where
-    toJSON x = Null
-
-instance (Typeable a, ToJSON a, ToJSON (Union (TypeFun.Data.List.Delete a b))) => ToJSON (Union (a : b)) where
-    toJSON x = case restrict @ a x of
-        Right x -> toJSON x
-        Left x -> toJSON x
-
-instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (SerializableChildren a k)) => ToJSON (Ast.Node a k) where
-    toJSON x = object
-        [ "type" .= symbolVal do Proxy @ k
-        , "attributes" .= Ast.attributes x
-        , "children" .= SerializableChildren @ a @ k do Ast.children x
-        ]
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "block-expression") where
     toJSON (SerializableChildren body) =
