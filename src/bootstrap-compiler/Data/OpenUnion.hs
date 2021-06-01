@@ -49,20 +49,22 @@ instance Eq (Union '[]) where
     a == _ = typesExhausted a
 
 instance (Typeable a, Eq a, Eq (Union (Delete a as))) => Eq (Union (a : as)) where
-    x == y = case (restrict @ a x, restrict @ a y) of
-          (Right x, Right y) -> y == y
-          (Left x, Left y) -> x == y
-          _ -> False
+    x == y =
+        case (restrict @ a x, restrict @ a y) of
+            (Right x, Right y) -> y == y
+            (Left x, Left y) -> x == y
+            _ -> False
 
 instance Ord (Union '[]) where
     compare a _ = typesExhausted a
 
 instance (Typeable a, Ord a, Ord (Union (Delete a as))) => Ord (Union (a ': as)) where
-  compare x y = case (restrict @ a x, restrict @ a y) of
-      (Right x, Right y) -> compare x y
-      (Left x, Left y) -> compare x y
-      (Right _, Left _) -> GT
-      (Left _, Right _) -> LT
+    compare x y =
+        case (restrict @ a x, restrict @ a y) of
+            (Right x, Right y) -> compare x y
+            (Left x, Left y) -> compare x y
+            (Right _, Left _) -> GT
+            (Left _, Right _) -> LT
 
 instance (Exception e) => Exception (Union (e ': '[])) where
   toException u = case restrict u of
