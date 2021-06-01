@@ -5,7 +5,7 @@ module Ast.DumpJson where
 import Global
 import Context.Funs
 import Data.Aeson
-import Data.Typeable
+import Data.Typeable ( Typeable )
 import qualified Ast
 import qualified Ast.Semantic
 import qualified Ast.Syntax

@@ -28,16 +28,7 @@ data Position =
         !Int
         !Int
 
-showSeverity = 
-    do symbolVal @ "error" @ Proxy
-    @>
-    do symbolVal @ "warning" @ Proxy
-    @>
-    do symbolVal @ "information" @ Proxy
-    @>
-    do symbolVal @ "hint" @ Proxy
-    @>
-    typesExhausted
+
 
 instance Show Diagnostic where
     show (Diagnostic severity (Location (Position l c) _) message) = mconcat
@@ -46,7 +37,7 @@ instance Show Diagnostic where
         , ","
         , show c
         , "): "
-        , showSeverity severity
+        , show severity
         , ": "
         , message
         ]

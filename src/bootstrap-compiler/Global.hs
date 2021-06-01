@@ -3,7 +3,6 @@ module Global
     , module Control.Monad.Freer
     , module Control.Monad.Trans
     , module Data.OpenUnion
-    , module Data.Proxy
     , module GHC.TypeLits
     , module Prelude
     , module TypeFun.Data.List
@@ -13,12 +12,17 @@ import Prelude hiding (return)
 import Control.Monad.Freer (Eff, Member, Members, LastMember, runM, send, sendM)
 import Control.Monad.Trans (lift)
 import "open-union" Data.OpenUnion (Union, (@>), liftUnion, restrict, reUnion, typesExhausted)
-import Data.Proxy (Proxy(Proxy))
 import GHC.TypeLits (KnownSymbol, Symbol, symbolVal)
 import TypeFun.Data.List ((:++:))
 import qualified Prelude
-import qualified Data.IORef
 import qualified Control.Monad.Freer.Internal
+import qualified Data.IORef
+import qualified TypeFun.Data.List
+
+data Proxy a = Proxy
+
+instance KnownSymbol a => Show (Proxy a) where
+    show = symbolVal
 
 class DeclareContext s where
     type family Context s :: *
