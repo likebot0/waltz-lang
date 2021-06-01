@@ -26,6 +26,8 @@ executable bootstrap-compiler
     Ast.Semantic
     Context.Funs
     Context.Implements
+    Data.OpenUnion
+    Data.Proxy
     Diagnostic
     Diagnostic.CannotResolve
     Diagnostic.IndexOutOfBounds
