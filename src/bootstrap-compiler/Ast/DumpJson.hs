@@ -120,10 +120,10 @@ instance AttributesToJSON a => ToJSON (BoxedChildren a "identifier") where
         toJSON x
 
 instance AttributesToJSON a => ToJSON (BoxedChildren a "key-value") where
-    toJSON (BoxedChildren (left, right)) =
+    toJSON (BoxedChildren (key, value)) =
         object
-            [ "left" .= left
-            , "right" .= right
+            [ "key" .= key
+            , "value" .= value
             ]
 
 instance AttributesToJSON a => ToJSON (BoxedChildren a "lambda-expression") where
