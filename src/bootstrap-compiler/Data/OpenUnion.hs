@@ -65,7 +65,7 @@ instance (Typeable a, Ord a, Ord (Union (Delete a as))) => Ord (Union (a ': as))
             (Left _, Right _) -> LT
 
 instance Data.Aeson.ToJSON (Union '[]) where
-    toJSON x = Data.Aeson.Null
+    toJSON = typesExhausted
 
 instance (Typeable a, Data.Aeson.ToJSON a, Data.Aeson.ToJSON (Union (TypeFun.Data.List.Delete a b))) => Data.Aeson.ToJSON (Union (a : b)) where
     toJSON x =
