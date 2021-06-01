@@ -115,9 +115,9 @@ instance AttributesToJSON a => ToJSON (ChildrenContainer a "identifier") where
         toJSON x
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "key-value") where
-    toJSON (ChildrenContainer (identifier, expression)) = object
-        [ "identifier" .= identifier
-        , "expression" .= expression
+    toJSON (ChildrenContainer (left, right)) = object
+        [ "left" .= left
+        , "right" .= right
         ]
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "lambda-expression") where
