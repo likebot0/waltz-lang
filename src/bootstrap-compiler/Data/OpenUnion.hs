@@ -4,7 +4,7 @@ module Data.OpenUnion
     ( Union
     , (@>)
     , inject
-    , reUnion
+    , reinterpret
     , restrict
     , typesExhausted
     )
@@ -82,9 +82,9 @@ restrict :: Typeable a => Union s -> Either (Union (Delete a s)) a
 restrict (Union d) = maybe (Left $ Union d) Right $ fromDynamic d
 {-# INLINE restrict #-}
 
-reUnion :: (SubList s s') => Union s -> Union s'
-reUnion (Union d) = Union d
-{-# INLINE reUnion #-}
+reinterpret :: (SubList s s') => Union s -> Union s'
+reinterpret (Union d) = Union d
+{-# INLINE reinterpret #-}
 
 typesExhausted :: Union '[] -> a
 typesExhausted = error "Union types exhausted - empty Union"

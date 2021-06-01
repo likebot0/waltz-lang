@@ -24,7 +24,7 @@ analyzer =
                 Syntax.Discard.analyzer "}"
             , inject <$> do
                 Syntax.KeyValue.analyzer "}"
-            , reUnion <$> do
+            , reinterpret <$> do
                 Syntax.Statement.analyzer "}"
             ]
         do choice

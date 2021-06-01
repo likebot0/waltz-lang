@@ -80,7 +80,7 @@ withDefault x = x
         fun \identifier -> do
             ast <- super identifier
 
-            call @ "ast/dump" (reUnion ast)
+            call @ "ast/dump" (reinterpret ast)
                 |> with @ "get-current-src-id" do
                     fun \_ -> do
                         return identifier

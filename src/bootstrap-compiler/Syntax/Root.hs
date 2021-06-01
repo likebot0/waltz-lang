@@ -21,7 +21,7 @@ analyzer = Syntax.Shared.node do
         do choice
             [ inject <$> do
                 Syntax.Expression.analyzer ","
-            , reUnion <$> do
+            , reinterpret <$> do
                 Syntax.Root.Statement.analyzer
             ]
         do choice

@@ -24,7 +24,7 @@ analyzer = Syntax.Shared.node do
                 Syntax.Discard.analyzer "]"
             , inject <$> do
                 Syntax.Expression.analyzer ",]"
-            , reUnion <$> do
+            , reinterpret <$> do
                 Syntax.Statement.analyzer "]"
             ]
         do choice
