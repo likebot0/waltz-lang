@@ -106,8 +106,9 @@ instance AttributesToJSON a => ToJSON (SerializableChildren a "block-expression"
         toJSON body
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "discard") where
-    toJSON (SerializableChildren expression) =
-        toJSON expression
+    toJSON (SerializableChildren expression) = object
+        [ "expression" .= expression
+        ]
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "expression") where
     toJSON (SerializableChildren x) =
