@@ -13,7 +13,7 @@
 module Data.OpenUnion
     ( Union
     , (@>)
-    , liftUnion
+    , inject
     , reUnion
     , flattenUnion
     , restrict
@@ -90,9 +90,9 @@ r @!> l = either l r . restrict
 
 infixr 2 @!>
 
-liftUnion :: (Typeable a, Elem a s) => a -> Union s
-liftUnion = Union . toDyn
-{-# INLINE liftUnion #-}
+inject :: (Typeable a, Elem a s) => a -> Union s
+inject = Union . toDyn
+{-# INLINE inject #-}
 
 restrict :: Typeable a => Union s -> Either (Union (Delete a s)) a
 restrict (Union d) = maybe (Left $ Union d) Right $ fromDynamic d

@@ -121,7 +121,7 @@ withDefault x = x
                     fun \_ -> do
                         return path
 
-            pure $ liftUnion semanticAst
+            pure $ inject semanticAst
 
             |> with @ "get-current-src-id" do
                 fun \_ -> do

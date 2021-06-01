@@ -8,6 +8,6 @@ import Diagnostic
 
 send x name =
     call @ "diagnostic/send" $ Diagnostic.Diagnostic
-        do liftUnion $ Proxy @ "error"
+        do inject $ Proxy @ "error"
         x
         do "Unknown field '" ++ name ++ "' on type object"

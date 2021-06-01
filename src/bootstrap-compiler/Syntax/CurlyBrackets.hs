@@ -20,9 +20,9 @@ analyzer =
         do single '{'
         do single '}'
         do choice
-            [ liftUnion <$> do
+            [ inject <$> do
                 Syntax.Discard.analyzer "}"
-            , liftUnion <$> do
+            , inject <$> do
                 Syntax.KeyValue.analyzer "}"
             , reUnion <$> do
                 Syntax.Statement.analyzer "}"

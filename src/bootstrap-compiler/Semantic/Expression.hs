@@ -33,9 +33,9 @@ analyze x = do
                 y <- Semantic.BlockExpression.analyze x
 
                 pure
-                    ( liftUnion y
+                    ( inject y
                     , Ast.Syntax.location $ Ast.attributes x
-                    , liftUnion $ Ast.Semantic.Type @ "unknown" ()
+                    , inject $ Ast.Semantic.Type @ "unknown" ()
                     )
             @>
             do \(x :: Ast.Node "syntax-analyzed" "grouped-expression") -> do
@@ -46,7 +46,7 @@ analyze x = do
                 let Ast.Semantic.ExpressionAttributes _ t = Ast.attributes expression
 
                 pure
-                    ( liftUnion y
+                    ( inject y
                     , Ast.Syntax.location $ Ast.attributes x
                     , t
                     )
@@ -61,7 +61,7 @@ analyze x = do
 
                     |> withRaiseHandler (\e -> do
                         call @ "diagnostic/send" $ Diagnostic.Diagnostic
-                            do liftUnion $ Proxy @ "error"
+                            do inject $ Proxy @ "error"
                             do Ast.Syntax.location $ Ast.attributes x
                             do show e
                     )
@@ -69,27 +69,27 @@ analyze x = do
                 y <- Semantic.Identifier.analyze x
 
                 pure
-                    ( liftUnion y
+                    ( inject y
                     , Ast.Syntax.location $ Ast.attributes x
-                    , liftUnion $ Ast.Semantic.Type @ "unknown" ()
+                    , inject $ Ast.Semantic.Type @ "unknown" ()
                     )
             @>
             do \(x :: Ast.Node "syntax-analyzed" "lambda-expression") -> do
                 y <- Semantic.LambdaExpression.analyze x
 
                 pure
-                    ( liftUnion y
+                    ( inject y
                     , Ast.Syntax.location $ Ast.attributes x
-                    , liftUnion $ Ast.Semantic.Type @ "function" $ ""
+                    , inject $ Ast.Semantic.Type @ "function" $ ""
                     )
             @>
             do \(x :: Ast.Node "syntax-analyzed" "literal/array") -> do
                 y <- Semantic.Literal.Array.analyze x
 
                 pure
-                    ( liftUnion y
+                    ( inject y
                     , Ast.Syntax.location $ Ast.attributes x
-                    , liftUnion $ Ast.Semantic.Type @ "array" $ Ast.children y >>=
+                    , inject $ Ast.Semantic.Type @ "array" $ Ast.children y >>=
                         do \(x :: Ast.Node "semantic-analyzed" "discard") ->
                             []
                         @>
@@ -114,36 +114,36 @@ analyze x = do
                 y <- Semantic.Literal.Number.analyze x
 
                 pure
-                    ( liftUnion y
+                    ( inject y
                     , Ast.Syntax.location $ Ast.attributes x
-                    , liftUnion $ Ast.Semantic.Type @ "number" $ Ast.children y
+                    , inject $ Ast.Semantic.Type @ "number" $ Ast.children y
                     )
             @>
             do \(x :: Ast.Node "syntax-analyzed" "literal/object") -> do
                 y <- Semantic.Literal.Object.analyze x
 
                 pure
-                    ( liftUnion y
+                    ( inject y
                     , Ast.Syntax.location $ Ast.attributes x
-                    , liftUnion $ Ast.Semantic.Type @ "object" $ undefined
+                    , inject $ Ast.Semantic.Type @ "object" $ undefined
                     )
             @>
             do \(x :: Ast.Node "syntax-analyzed" "literal/string") -> do
                 y <- Semantic.Literal.String.analyze x
 
                 pure
-                    ( liftUnion y
+                    ( inject y
                     , Ast.Syntax.location $ Ast.attributes x
-                    , liftUnion $ Ast.Semantic.Type @ "string" $ ""
+                    , inject $ Ast.Semantic.Type @ "string" $ ""
                     )
             @>
             do \(x :: Ast.Node "syntax-analyzed" "type-expression") -> do
                 y <- Semantic.TypeExpression.analyze x
 
                 pure
-                    ( liftUnion y
+                    ( inject y
                     , Ast.Syntax.location $ Ast.attributes x
-                    , liftUnion $ Ast.Semantic.Type @ "unknown" ()
+                    , inject $ Ast.Semantic.Type @ "unknown" ()
                     )
             @>
             typesExhausted
@@ -171,14 +171,14 @@ apply x y l = x |>
         y <- y |> restrict @ (Ast.Semantic.Type "unknown") |> \case
             Left y -> pure y
             Right y -> do
-                return $ liftUnion y
+                return $ inject y
 
         y <- y |> restrict @ (Ast.Semantic.Type "number") |> \case
             Right y -> pure y
             Left y -> do
                 Diagnostic.MismatchedTypes.send l
 
-                return $ liftUnion $ Ast.Semantic.Type @ "unknown" ()
+                return $ inject $ Ast.Semantic.Type @ "unknown" ()
 
         let Ast.Semantic.Type text = y
 
@@ -191,14 +191,14 @@ apply x y l = x |>
         when (fromIntegral index /= rawIndex) do
             Diagnostic.MismatchedTypes.send l
 
-            return $ liftUnion $ Ast.Semantic.Type @ "unknown" ()
+            return $ inject $ Ast.Semantic.Type @ "unknown" ()
 
         let n = length elements
 
         when (index < 0 || index >= n) do
             Diagnostic.IndexOutOfBounds.send l (show index) n
 
-            return $ liftUnion $ Ast.Semantic.Type @ "unknown" ()
+            return $ inject $ Ast.Semantic.Type @ "unknown" ()
 
         return $ elements !! index
     @>
@@ -211,20 +211,20 @@ apply x y l = x |>
             Left y -> do
                 Diagnostic.MismatchedTypes.send l
 
-        return $ liftUnion $ Ast.Semantic.Type @ "unknown" ()
+        return $ inject $ Ast.Semantic.Type @ "unknown" ()
     @>
     do \(x :: Ast.Semantic.Type "object") -> run do
         y <- y |> restrict @ (Ast.Semantic.Type "unknown") |> \case
             Left y -> pure y
             Right y -> do
-                return $ liftUnion y
+                return $ inject y
 
         y <- y |> restrict @ (Ast.Semantic.Type "string") |> \case
             Right y -> pure y
             Left y -> do
                 Diagnostic.MismatchedTypes.send l
 
-                return $ liftUnion $ Ast.Semantic.Type @ "unknown" ()
+                return $ inject $ Ast.Semantic.Type @ "unknown" ()
 
         let Ast.Semantic.Type map = x
 
@@ -235,20 +235,20 @@ apply x y l = x |>
             Nothing -> do
                 Diagnostic.UnknownField.send l key
 
-                return $ liftUnion $ Ast.Semantic.Type @ "unknown" ()
+                return $ inject $ Ast.Semantic.Type @ "unknown" ()
     @>
     do \(x :: Ast.Semantic.Type "string") -> run do
         y <- y |> restrict @ (Ast.Semantic.Type "unknown") |> \case
             Left y -> pure y
             Right _ -> do
-                return $ liftUnion $ Ast.Semantic.Type @ "unknown" ()
+                return $ inject $ Ast.Semantic.Type @ "unknown" ()
 
         y <- y |> restrict @ (Ast.Semantic.Type "number") |> \case
             Right y -> pure y
             Left y -> do
                 Diagnostic.MismatchedTypes.send l
 
-                return $ liftUnion $ Ast.Semantic.Type @ "unknown" ()
+                return $ inject $ Ast.Semantic.Type @ "unknown" ()
 
         let Ast.Semantic.Type text = y
 
@@ -259,7 +259,7 @@ apply x y l = x |>
         when (fromIntegral index /= rawIndex) do
             Diagnostic.MismatchedTypes.send l
 
-            return $ liftUnion $ Ast.Semantic.Type @ "unknown" ()
+            return $ inject $ Ast.Semantic.Type @ "unknown" ()
 
         let Ast.Semantic.Type string = x
 
@@ -271,11 +271,11 @@ apply x y l = x |>
                 do show index
                 n
 
-            return $ liftUnion $ Ast.Semantic.Type @ "unknown" ()
+            return $ inject $ Ast.Semantic.Type @ "unknown" ()
 
-        return $ liftUnion $ Ast.Semantic.Type @ "string" $ [string !! index]
+        return $ inject $ Ast.Semantic.Type @ "string" $ [string !! index]
     @>
     do \(x :: Ast.Semantic.Type "unknown") -> run do
-        return $ liftUnion x
+        return $ inject x
     @>
     typesExhausted

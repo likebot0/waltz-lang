@@ -19,7 +19,7 @@ analyzer = Syntax.Shared.node do
         do optional $ lookAhead anySingle
         do eof
         do choice
-            [ liftUnion <$> do
+            [ inject <$> do
                 Syntax.Expression.analyzer ","
             , reUnion <$> do
                 Syntax.Root.Statement.analyzer

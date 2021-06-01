@@ -26,15 +26,15 @@ analyzer end = Syntax.Shared.node do
             , () <$ oneOf ("#\r\n" ++ end)
             ]
         do choice
-            [ liftUnion <$> Syntax.BlockExpression.analyzer
-            , liftUnion <$> Syntax.GroupedExpression.analyzer
-            , liftUnion <$> Syntax.LambdaExpression.analyzer
-            , liftUnion <$> Syntax.Literal.Array.analyzer
-            , liftUnion <$> Syntax.Literal.Number.analyzer
-            , liftUnion <$> Syntax.Literal.Object.analyzer
-            , liftUnion <$> Syntax.Literal.String.analyzer
-            , liftUnion <$> Syntax.TypeExpression.analyzer end
-            , liftUnion <$> Syntax.Identifier.analyzer
+            [ inject <$> Syntax.BlockExpression.analyzer
+            , inject <$> Syntax.GroupedExpression.analyzer
+            , inject <$> Syntax.LambdaExpression.analyzer
+            , inject <$> Syntax.Literal.Array.analyzer
+            , inject <$> Syntax.Literal.Number.analyzer
+            , inject <$> Syntax.Literal.Object.analyzer
+            , inject <$> Syntax.Literal.String.analyzer
+            , inject <$> Syntax.TypeExpression.analyzer end
+            , inject <$> Syntax.Identifier.analyzer
             ]
         do choice
             [ Syntax.Whitespace.analyzer

@@ -10,5 +10,5 @@ import qualified Syntax.Root.Statement.Base
 
 analyzer :: Syntax.Analyzer.Analyzer (Union (Ast.RootStatement "syntax-analyzed"))
 analyzer = choice
-    [ liftUnion <$> Syntax.Root.Statement.Base.analyzer
+    [ inject <$> Syntax.Root.Statement.Base.analyzer
     ]

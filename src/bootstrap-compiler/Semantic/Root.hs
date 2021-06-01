@@ -15,9 +15,9 @@ analyze x = do
         <$> sequence do
             Ast.children x >>=
                 do \(x :: Ast.Node "syntax-analyzed" "expression") -> do
-                    pure $ liftUnion <$> Semantic.Expression.analyze x
+                    pure $ inject <$> Semantic.Expression.analyze x
                 @>
                 do \(x :: Ast.Node "syntax-analyzed" "root/statement/base") -> do
-                    pure $ liftUnion <$> Semantic.Root.Statement.Base.analyze x
+                    pure $ inject <$> Semantic.Root.Statement.Base.analyze x
                 @>
                 typesExhausted

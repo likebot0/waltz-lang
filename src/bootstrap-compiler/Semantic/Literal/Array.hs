@@ -21,16 +21,16 @@ analyze x = do
             <$> sequence do
                 Ast.children x >>=
                     do \(x :: Ast.Node "syntax-analyzed" "discard") -> do
-                        pure $ liftUnion <$> Semantic.Discard.analyze x
+                        pure $ inject <$> Semantic.Discard.analyze x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "expression") -> do
-                        pure $ liftUnion <$> Semantic.Expression.analyze x
+                        pure $ inject <$> Semantic.Expression.analyze x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/if") -> do
-                        pure $ liftUnion <$> Semantic.Statement.IfStatement.analyze x
+                        pure $ inject <$> Semantic.Statement.IfStatement.analyze x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/let") -> do
-                        pure $ liftUnion <$> do
+                        pure $ inject <$> do
                             node <- Semantic.Statement.LetStatement.analyze x
 
                             let (identifierNode, expressionNode) = Ast.children $ Ast.children node
@@ -44,6 +44,6 @@ analyze x = do
                             pure node
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/with") -> do
-                        pure $ liftUnion <$> Semantic.Statement.WithStatement.analyze x
+                        pure $ inject <$> Semantic.Statement.WithStatement.analyze x
                     @>
                     typesExhausted

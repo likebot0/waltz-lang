@@ -16,12 +16,12 @@ analyzer = Syntax.Shared.node do
         do single '"'
         do single '"'
         do choice
-            [ liftUnion <$> some 
+            [ inject <$> some 
                 do choice
                     [ noneOf "\\"
                     , charEscape
                     ]
-            , liftUnion <$> interpolation
+            , inject <$> interpolation
             ]
         do
             single '\\'

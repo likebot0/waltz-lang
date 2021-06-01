@@ -11,7 +11,7 @@ import qualified Syntax.Statement.WithStatement
 
 analyzer :: Syntax.Analyzer.WithEnd (Union (Ast.Statement "syntax-analyzed"))
 analyzer end = choice
-    [ liftUnion <$> Syntax.Statement.IfStatement.analyzer end
-    , liftUnion <$> Syntax.Statement.LetStatement.analyzer end
-    , liftUnion <$> Syntax.Statement.WithStatement.analyzer end
+    [ inject <$> Syntax.Statement.IfStatement.analyzer end
+    , inject <$> Syntax.Statement.LetStatement.analyzer end
+    , inject <$> Syntax.Statement.WithStatement.analyzer end
     ]

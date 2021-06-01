@@ -19,6 +19,6 @@ analyzer = () <$ do
     lift do
         call @ "diagnostic/send" do
             Diagnostic.Diagnostic
-                do liftUnion $ Proxy @ "error"
+                do inject $ Proxy @ "error"
                 do Diagnostic.Location start end
                 do "Syntax error, unexpected token '" ++ [c] ++ "'"

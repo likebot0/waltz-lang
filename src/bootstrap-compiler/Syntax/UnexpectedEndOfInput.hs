@@ -17,6 +17,6 @@ analyzer = () <$ do
     lift do
         call @ "diagnostic/send" do
             Diagnostic.Diagnostic
-                do liftUnion $ Proxy @ "error"
+                do inject $ Proxy @ "error"
                 do Diagnostic.Location position position
                 do "Syntax error, unexpected end of input"

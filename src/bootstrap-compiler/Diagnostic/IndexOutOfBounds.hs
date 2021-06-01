@@ -8,6 +8,6 @@ import Diagnostic
 
 send x i n =
     call @ "diagnostic/send" $ Diagnostic.Diagnostic
-        do liftUnion $ Proxy @ "error"
+        do inject $ Proxy @ "error"
         x
         do "Index '" ++ i ++ "' is out-of-bounds in array of length " ++ show n
