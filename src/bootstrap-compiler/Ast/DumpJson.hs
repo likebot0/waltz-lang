@@ -48,7 +48,8 @@ encodePretty = Data.Aeson.Encode.Pretty.encodePretty' Data.Aeson.Encode.Pretty.C
         , "condition"
         , "parameter"
         , "body"
-        , "identifier"
+        , "left"
+        , "right"
         , "expression"
         ]
     , Data.Aeson.Encode.Pretty.confNumFormat = Data.Aeson.Encode.Pretty.Generic
