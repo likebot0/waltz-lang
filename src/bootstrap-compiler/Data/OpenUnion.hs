@@ -12,12 +12,6 @@ where
 
 import Control.Exception
 import Data.Dynamic
-
-#if MIN_VERSION_base(4,10,0)
-import Data.Proxy
-import Data.Typeable
-#endif
-
 import Prelude
 import TypeFun.Data.List (Delete, Elem, SubList, (:++:))
 import qualified Data.Aeson
