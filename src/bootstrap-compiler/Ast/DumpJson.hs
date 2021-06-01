@@ -64,7 +64,7 @@ instance (Typeable a, ToJSON a, ToJSON (Union (TypeFun.Data.List.Delete a b))) =
         Right x -> toJSON x
         Left x -> toJSON x
 
-newtype ChildrenContainer a k = ChildrenContainer (Ast.Children a k)
+newtype Children' a k = Children' (Ast.Children a k)
 
 type AttributesToJSON a = 
     ( Typeable a
@@ -88,89 +88,89 @@ type AttributesToJSON a =
     , ToJSON (Ast.Attributes a "statement/with")
     )
 
-instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (ChildrenContainer a k)) => ToJSON (Ast.Node a k) where
+instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (Children' a k)) => ToJSON (Ast.Node a k) where
     toJSON x =
         object
             [ "type" .= symbolVal do Proxy @ k
             , "attributes" .= Ast.attributes x
-            , "children" .= ChildrenContainer @ a @ k do Ast.children x
+            , "children" .= Children' @ a @ k do Ast.children x
             ]
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "block-expression") where
-    toJSON (ChildrenContainer body) =
+instance AttributesToJSON a => ToJSON (Children' a "block-expression") where
+    toJSON (Children' body) =
         toJSON body
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "discard") where
-    toJSON (ChildrenContainer expression) =
+instance AttributesToJSON a => ToJSON (Children' a "discard") where
+    toJSON (Children' expression) =
         toJSON expression
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "expression") where
-    toJSON (ChildrenContainer terms) =
+instance AttributesToJSON a => ToJSON (Children' a "expression") where
+    toJSON (Children' terms) =
         toJSON terms
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "grouped-expression") where
-    toJSON (ChildrenContainer expression) =
+instance AttributesToJSON a => ToJSON (Children' a "grouped-expression") where
+    toJSON (Children' expression) =
         toJSON expression
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "identifier") where
-    toJSON (ChildrenContainer x) =
+instance AttributesToJSON a => ToJSON (Children' a "identifier") where
+    toJSON (Children' x) =
         toJSON x
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "key-value") where
-    toJSON (ChildrenContainer (left, right)) =
+instance AttributesToJSON a => ToJSON (Children' a "key-value") where
+    toJSON (Children' (left, right)) =
         object
             [ "left" .= left
             , "right" .= right
             ]
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "lambda-expression") where
-    toJSON (ChildrenContainer (parameter, body)) =
+instance AttributesToJSON a => ToJSON (Children' a "lambda-expression") where
+    toJSON (Children' (parameter, body)) =
         object
             [ "parameter" .= parameter
             , "body" .= body
             ]
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "literal/array") where
-    toJSON (ChildrenContainer body) =
+instance AttributesToJSON a => ToJSON (Children' a "literal/array") where
+    toJSON (Children' body) =
         toJSON body
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "literal/number") where
-    toJSON (ChildrenContainer x) =
+instance AttributesToJSON a => ToJSON (Children' a "literal/number") where
+    toJSON (Children' x) =
         toJSON x
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "literal/object") where
-    toJSON (ChildrenContainer body) =
+instance AttributesToJSON a => ToJSON (Children' a "literal/object") where
+    toJSON (Children' body) =
         toJSON body
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "literal/string") where
-    toJSON (ChildrenContainer x) =
+instance AttributesToJSON a => ToJSON (Children' a "literal/string") where
+    toJSON (Children' x) =
         toJSON x
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "type-expression") where
-    toJSON (ChildrenContainer expression) =
+instance AttributesToJSON a => ToJSON (Children' a "type-expression") where
+    toJSON (Children' expression) =
         object
             [ "expression" .= expression
             ]
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "root") where
-    toJSON (ChildrenContainer body) =
+instance AttributesToJSON a => ToJSON (Children' a "root") where
+    toJSON (Children' body) =
         toJSON body
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "root/statement/base") where
-    toJSON (ChildrenContainer identifier) =
+instance AttributesToJSON a => ToJSON (Children' a "root/statement/base") where
+    toJSON (Children' identifier) =
         toJSON identifier
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "statement/if") where
-    toJSON (ChildrenContainer (condition, body)) =
+instance AttributesToJSON a => ToJSON (Children' a "statement/if") where
+    toJSON (Children' (condition, body)) =
         object
             [ "condition" .= condition
             , "body" .= body
             ]
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "statement/let") where
-    toJSON (ChildrenContainer x) =
+instance AttributesToJSON a => ToJSON (Children' a "statement/let") where
+    toJSON (Children' x) =
         toJSON x
 
-instance AttributesToJSON a => ToJSON (ChildrenContainer a "statement/with") where
-    toJSON (ChildrenContainer body) =
+instance AttributesToJSON a => ToJSON (Children' a "statement/with") where
+    toJSON (Children' body) =
         toJSON body
