@@ -66,13 +66,6 @@ instance (Typeable a, ToJSON a, ToJSON (Union (TypeFun.Data.List.Delete a b))) =
 
 newtype ChildrenContainer a k = ChildrenContainer (Ast.Children a k)
 
-instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (ChildrenContainer a k)) => ToJSON (Ast.Node a k) where
-    toJSON x = object
-        [ "type" .= symbolVal do Proxy @ k
-        , "attributes" .= Ast.attributes x
-        , "children" .= ChildrenContainer @ a @ k do Ast.children x
-        ]
-
 type AttributesToJSON a = 
     ( Typeable a
     , KnownSymbol a
@@ -94,6 +87,13 @@ type AttributesToJSON a =
     , ToJSON (Ast.Attributes a "statement/let")
     , ToJSON (Ast.Attributes a "statement/with")
     )
+
+instance (KnownSymbol a, KnownSymbol k, ToJSON (Ast.Attributes a k), ToJSON (ChildrenContainer a k)) => ToJSON (Ast.Node a k) where
+    toJSON x = object
+        [ "type" .= symbolVal do Proxy @ k
+        , "attributes" .= Ast.attributes x
+        , "children" .= ChildrenContainer @ a @ k do Ast.children x
+        ]
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "block-expression") where
     toJSON (ChildrenContainer body) =
