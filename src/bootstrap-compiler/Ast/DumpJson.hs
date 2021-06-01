@@ -125,13 +125,10 @@ newtype NodeContainer a = NodeContainer (Union (Ast.All a))
 
 newtype SerializableChildren a k = SerializableChildren (Ast.Children a k)
 
-instance ToJSON a => ToJSON (Union '[a]) where
-    toJSON x = x |>
-        do \(x :: a) -> toJSON x
-        @>
-        typesExhausted
+instance ToJSON (Union '[]) where
+    toJSON x = Null
 
-instance (ToJSON a, ToJSON (Union b)) => ToJSON (Union (a : b)) where
+instance (ToJSON a, Typeable a, ToJSON (Union b)) => ToJSON (Union (a : b)) where
     toJSON x = case restrict @ a x of
         Right x -> toJSON x
         Left x -> toJSON x
@@ -198,15 +195,7 @@ instance AttributesToJSON a => ToJSON (SerializableChildren a "literal/object") 
         toJSON do NodeContainer @ a . reUnion <$> body
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "literal/string") where
-    toJSON (SerializableChildren x) = f <$> x
-
-f :: forall a. Union [String, Ast.Node a "grouped-expression"] -> Value
-f =
-    do \(x :: String) -> toJSON x
-    @>
-    do \(x :: Ast.Node a "grouped-expression") -> toJSON x
-    @>
-    typesExhausted
+    toJSON (SerializableChildren x) = ""
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "type-expression") where
     toJSON (SerializableChildren expression) = object
