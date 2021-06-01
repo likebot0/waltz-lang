@@ -46,6 +46,7 @@ encodePretty = Data.Aeson.Encode.Pretty.encodePretty' Data.Aeson.Encode.Pretty.C
         , "line-number"
         , "column"
         , "predicate"
+        , "parameter"
         , "body"
         , "identifier"
         , "expression"
@@ -121,7 +122,7 @@ instance AttributesToJSON a => ToJSON (ChildrenContainer a "key-value") where
 
 instance AttributesToJSON a => ToJSON (ChildrenContainer a "lambda-expression") where
     toJSON (ChildrenContainer (identifier, body)) = object
-        [ "identifier" .= identifier
+        [ "parameter" .= identifier
         , "body" .= body
         ]
 
