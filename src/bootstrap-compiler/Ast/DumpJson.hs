@@ -45,7 +45,6 @@ encodePretty = Data.Aeson.Encode.Pretty.encodePretty' Data.Aeson.Encode.Pretty.C
         , "end"
         , "line-number"
         , "column"
-        , "data"
         , "predicate"
         , "body"
         , "identifier"
