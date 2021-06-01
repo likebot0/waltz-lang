@@ -29,8 +29,8 @@ import Data.Proxy
 import Data.Typeable
 #endif
 
-import TypeFun.Data.List (Delete, Elem, SubList, (:++:))
 import Prelude
+import TypeFun.Data.List (Delete, Elem, SubList, (:++:))
 
 -- | The @Union@ type - the phantom parameter @s@ is a list of types
 -- denoting what this @Union@ might contain.
