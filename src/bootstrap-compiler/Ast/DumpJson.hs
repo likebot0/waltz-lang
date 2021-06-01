@@ -111,8 +111,7 @@ instance AttributesToJSON a => ToJSON (SerializableChildren a "discard") where
         ]
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "expression") where
-    toJSON (SerializableChildren x) =
-        toJSON x
+    toJSON (SerializableChildren x) = toJSON x
 
 instance AttributesToJSON a => ToJSON (SerializableChildren a "grouped-expression") where
     toJSON (SerializableChildren expression) = object
