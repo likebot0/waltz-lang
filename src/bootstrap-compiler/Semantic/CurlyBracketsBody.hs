@@ -15,7 +15,7 @@ import qualified Semantic.Statement.WithStatement
 
 analyze :: Semantic.Analyzer.Constraint e => Ast.CurlyBracketsBody "syntax-analyzed" -> Eff e (Ast.CurlyBracketsBody "semantic-analyzed")
 analyze body = do
-    Semantic.Common.newScope \memberStoreRef -> do
+    Semantic.Common.newScope \memberStoreRef ->
         (`mapM` body) (
             do \(x :: Ast.Node "syntax-analyzed" "discard") ->
                 inject <$> Semantic.Discard.analyze x
