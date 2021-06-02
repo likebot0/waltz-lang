@@ -19,13 +19,13 @@ analyze :: Semantic.Analyzer.Constraint e => Ast.CurlyBracketsBody "syntax-analy
 analyze body = do
     Semantic.Shared.newScope \memberStoreRef -> do
         (,)
-            <$> sequence do
-                body >>=
-                    do \(x :: Ast.Node "syntax-analyzed" "discard") -> do
-                        pure $ inject <$> Semantic.Discard.analyze x
+            <$> mapM
+                (
+                    do \(x :: Ast.Node "syntax-analyzed" "discard") ->
+                        inject <$> Semantic.Discard.analyze x
                     @>
-                    do \(x :: Ast.Node "syntax-analyzed" "key-value") -> do
-                        pure $ inject <$> do
+                    do \(x :: Ast.Node "syntax-analyzed" "key-value") ->
+                        inject <$> do
                             node <- Semantic.KeyValue.analyze x
 
                             let (identifierNode, expressionNode) = Ast.children node
@@ -38,11 +38,11 @@ analyze body = do
 
                             pure node
                     @>
-                    do \(x :: Ast.Node "syntax-analyzed" "statement/if") -> do
-                        pure $ inject <$> Semantic.Statement.IfStatement.analyze x
+                    do \(x :: Ast.Node "syntax-analyzed" "statement/if") ->
+                        inject <$> Semantic.Statement.IfStatement.analyze x
                     @>
-                    do \(x :: Ast.Node "syntax-analyzed" "statement/let") -> do
-                        pure $ inject <$> do
+                    do \(x :: Ast.Node "syntax-analyzed" "statement/let") ->
+                        inject <$> do
                             node <- Semantic.Statement.LetStatement.analyze x
 
                             let (identifierNode, expressionNode) = Ast.children $ Ast.children node
@@ -55,8 +55,10 @@ analyze body = do
 
                             pure node
                     @>
-                    do \(x :: Ast.Node "syntax-analyzed" "statement/with") -> do
-                        pure $ inject <$> Semantic.Statement.WithStatement.analyze x
+                    do \(x :: Ast.Node "syntax-analyzed" "statement/with") ->
+                        inject <$> Semantic.Statement.WithStatement.analyze x
                     @>
                     typesExhausted
+                )
+                do body
             <*> get memberStoreRef
