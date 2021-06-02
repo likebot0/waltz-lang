@@ -18,7 +18,7 @@ analyzer = Syntax.Common.node do
         do choice
             [ inject <$> some 
                 do choice
-                    [ noneOf "\\"
+                    [ noneOf "\"\\"
                     , charEscape
                     ]
             , inject <$> interpolation
