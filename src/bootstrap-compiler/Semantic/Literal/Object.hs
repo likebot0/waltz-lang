@@ -18,8 +18,10 @@ analyze :: Semantic.Analyzer.Analyze "literal/object"
 analyze x =
     Semantic.Common.newScope \memberStoreRef -> do
         Ast.Node
-            do Ast.attributes x
-            <$> mapM
+            <$> do Ast.Semantic.CurlyBracketsAttributes
+                do Ast.Syntax.location $ Ast.attributes x
+                <$> do get memberStoreRef
+            <*> mapM
                 (
                     do \(x :: Ast.Node "syntax-analyzed" "discard") ->
                         inject <$> Semantic.Discard.analyze x
