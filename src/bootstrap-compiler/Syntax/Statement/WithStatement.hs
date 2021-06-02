@@ -6,7 +6,7 @@ import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import qualified Syntax.Common
-import {-# SOURCE #-} qualified Syntax.CurlyBrackets
+import {-# SOURCE #-} qualified Syntax.Expression
 import qualified Syntax.Ignored
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "statement/with")
@@ -17,7 +17,7 @@ analyzer end = Syntax.Common.node do
         do Syntax.Ignored.analyzer
         do lookAhead $ single '{'
 
-    body <- Syntax.CurlyBrackets.analyzer
+    expression <- Syntax.Expression.analyzer end
 
     Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
@@ -26,4 +26,4 @@ analyzer end = Syntax.Common.node do
             , () <$ oneOf ("#\r\n," ++ end)
             ]
 
-    pure body
+    pure expression
