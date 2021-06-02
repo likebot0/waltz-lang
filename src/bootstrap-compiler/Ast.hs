@@ -79,13 +79,13 @@ type instance Children a "lambda-expression" =
     )
 
 type instance Children a "literal/array" =
-    [Union (Node a "discard" : Node a "expression" : Statement a)]
+    [Union (Node a "discard" : Node a "expression" : Node a "statement/include" : Statement a)]
 
 type instance Children a "literal/number" =
     String
 
 type instance Children a "literal/object" =
-    [Union (Node a "discard" : Node a "key-value" : Statement a)]
+    [Union (Node a "discard" : Node a "key-value" : Node a "statement/include" : Statement a)]
 
 type instance Children a "literal/string" =
     [Union
