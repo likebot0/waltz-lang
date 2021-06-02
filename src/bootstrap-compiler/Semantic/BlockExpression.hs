@@ -13,7 +13,7 @@ analyze x = do
 
     Ast.Node
         <$> do fst <$> Semantic.CurlyBracketsBody.analyze body
-        <*> do Ast.attributes x
+        <*> do pure $ Ast.attributes x
 
     |> with @ "resolve" do
         Fun super <- useContext @ "resolve"
