@@ -5,7 +5,7 @@ import Text.Megaparsec
 import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
-import qualified Syntax.CurlyBrackets
+import {-# SOURCE #-} qualified Syntax.CurlyBrackets
 import qualified Syntax.Ignored
 import qualified Syntax.Shared
 
