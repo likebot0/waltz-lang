@@ -6,10 +6,10 @@ import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import qualified Syntax.Comment
+import qualified Syntax.Common
 import qualified Syntax.Expression
 import qualified Syntax.Statement.BaseStatement
 import qualified Syntax.Separator
-import qualified Syntax.Common
 import qualified Syntax.UnexpectedStatement
 import qualified Syntax.Whitespace
 

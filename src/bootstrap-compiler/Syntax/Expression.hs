@@ -6,6 +6,7 @@ import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import qualified Syntax.BlockExpression
+import qualified Syntax.Common
 import qualified Syntax.GroupedExpression
 import qualified Syntax.Identifier
 import qualified Syntax.LambdaExpression
@@ -13,7 +14,6 @@ import qualified Syntax.Literal.Array
 import qualified Syntax.Literal.Number
 import qualified Syntax.Literal.Object
 import qualified Syntax.Literal.String
-import qualified Syntax.Common
 import qualified Syntax.TypeExpression
 import qualified Syntax.Whitespace
 

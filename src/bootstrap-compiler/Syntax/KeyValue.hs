@@ -5,10 +5,10 @@ import Text.Megaparsec
 import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
+import qualified Syntax.Common
 import {-# SOURCE #-} qualified Syntax.Expression
 import qualified Syntax.Identifier
 import qualified Syntax.Ignored
-import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "key-value")
 analyzer end = Syntax.Common.node do

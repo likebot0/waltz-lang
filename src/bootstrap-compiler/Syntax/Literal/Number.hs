@@ -5,8 +5,8 @@ import Text.Megaparsec
 import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
-import qualified Syntax.Punctuation
 import qualified Syntax.Common
+import qualified Syntax.Punctuation
 import qualified Syntax.UnexpectedToken
 import qualified Syntax.Whitespace
 

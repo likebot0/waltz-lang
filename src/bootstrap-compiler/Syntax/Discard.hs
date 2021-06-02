@@ -4,11 +4,10 @@ import Global
 import Text.Megaparsec
 import qualified Ast
 import qualified Ast.Syntax
-import qualified Data.Maybe
 import qualified Syntax.Analyzer
+import qualified Syntax.Common
 import {-# SOURCE #-} qualified Syntax.Expression
 import qualified Syntax.Ignored
-import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "discard")
 analyzer end = Syntax.Common.node do

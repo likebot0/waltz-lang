@@ -6,8 +6,8 @@ import qualified Ast.Semantic
 import qualified Ast.Syntax
 import qualified Data.HashMap.Strict
 import qualified Semantic.Analyzer
-import qualified Semantic.Discard
 import qualified Semantic.Common
+import qualified Semantic.Discard
 import qualified Semantic.KeyValue
 import qualified Semantic.Statement.IfStatement
 import qualified Semantic.Statement.LetStatement

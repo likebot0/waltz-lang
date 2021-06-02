@@ -5,8 +5,8 @@ import Text.Megaparsec
 import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
-import {-# SOURCE #-} qualified Syntax.Expression
 import qualified Syntax.Common
+import {-# SOURCE #-} qualified Syntax.Expression
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "statement/include")
 analyzer end = Syntax.Common.node do

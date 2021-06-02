@@ -5,13 +5,13 @@ import qualified Ast
 import qualified Ast.Semantic
 import qualified Ast.Syntax
 import qualified Semantic.Analyzer
+import qualified Semantic.Common
 import qualified Semantic.Discard
 import {-# SOURCE #-} qualified Semantic.Expression
 import qualified Semantic.Statement.IfStatement
 import qualified Semantic.Statement.IncludeStatement
 import qualified Semantic.Statement.LetStatement
 import qualified Semantic.Statement.WithStatement
-import qualified Semantic.Common
 import qualified Data.HashMap.Strict
 
 analyze :: Semantic.Analyzer.Analyze "literal/array"

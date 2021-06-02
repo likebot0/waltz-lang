@@ -5,9 +5,9 @@ import Text.Megaparsec
 import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
+import qualified Syntax.Common
 import {-# SOURCE #-} qualified Syntax.CurlyBrackets
 import qualified Syntax.Ignored
-import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "statement/with")
 analyzer end = Syntax.Common.node do
