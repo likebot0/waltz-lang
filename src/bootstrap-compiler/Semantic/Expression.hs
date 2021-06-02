@@ -27,122 +27,125 @@ analyze :: Semantic.Analyzer.Analyze "expression"
 analyze x = do
     termRef <- ref Nothing
 
-    children <- sequence $ Ast.children x >>= \child -> pure do
-        (ast, location, nextTerm) <- child |>
-            do \(x :: Ast.Node "syntax-analyzed" "block-expression") -> do
-                y <- Semantic.BlockExpression.analyze x
+    children <- mapM
+        (\child -> do
+            (ast, location, nextTerm) <- child |>
+                do \(x :: Ast.Node "syntax-analyzed" "block-expression") -> do
+                    y <- Semantic.BlockExpression.analyze x
 
-                pure
-                    ( inject y
-                    , Ast.Syntax.location $ Ast.attributes x
-                    , inject $ Ast.Semantic.Type @ "unknown" ()
-                    )
-            @>
-            do \(x :: Ast.Node "syntax-analyzed" "grouped-expression") -> do
-                y <- Semantic.GroupedExpression.analyze x
+                    pure
+                        ( inject y
+                        , Ast.Syntax.location $ Ast.attributes x
+                        , inject $ Ast.Semantic.Type @ "unknown" ()
+                        )
+                @>
+                do \(x :: Ast.Node "syntax-analyzed" "grouped-expression") -> do
+                    y <- Semantic.GroupedExpression.analyze x
 
-                let expression = Ast.children y
+                    let expression = Ast.children y
 
-                let Ast.Semantic.ExpressionAttributes _ t = Ast.attributes expression
+                    let Ast.Semantic.ExpressionAttributes _ t = Ast.attributes expression
 
-                pure
-                    ( inject y
-                    , Ast.Syntax.location $ Ast.attributes x
-                    , t
-                    )
-            @>
-            do \(x :: Ast.Node "syntax-analyzed" "identifier") -> do
-                do
-                    call @ "resolve" $ Ast.children x |> \case
-                        '\'' : identifier -> identifier
-                        identifier -> identifier
+                    pure
+                        ( inject y
+                        , Ast.Syntax.location $ Ast.attributes x
+                        , t
+                        )
+                @>
+                do \(x :: Ast.Node "syntax-analyzed" "identifier") -> do
+                    do
+                        call @ "resolve" $ Ast.children x |> \case
+                            '\'' : identifier -> identifier
+                            identifier -> identifier
 
-                    pure ()
+                        pure ()
 
-                    |> withRaiseHandler (\e -> do
-                        call @ "diagnostic/send" $ Diagnostic.Diagnostic
-                            do inject $ Proxy @ "error"
-                            do Ast.Syntax.location $ Ast.attributes x
-                            do show e
-                    )
+                        |> withRaiseHandler (\e -> do
+                            call @ "diagnostic/send" $ Diagnostic.Diagnostic
+                                do inject $ Proxy @ "error"
+                                do Ast.Syntax.location $ Ast.attributes x
+                                do show e
+                        )
 
-                y <- Semantic.Identifier.analyze x
+                    y <- Semantic.Identifier.analyze x
 
-                pure
-                    ( inject y
-                    , Ast.Syntax.location $ Ast.attributes x
-                    , inject $ Ast.Semantic.Type @ "unknown" ()
-                    )
-            @>
-            do \(x :: Ast.Node "syntax-analyzed" "lambda-expression") -> do
-                y <- Semantic.LambdaExpression.analyze x
+                    pure
+                        ( inject y
+                        , Ast.Syntax.location $ Ast.attributes x
+                        , inject $ Ast.Semantic.Type @ "unknown" ()
+                        )
+                @>
+                do \(x :: Ast.Node "syntax-analyzed" "lambda-expression") -> do
+                    y <- Semantic.LambdaExpression.analyze x
 
-                pure
-                    ( inject y
-                    , Ast.Syntax.location $ Ast.attributes x
-                    , inject $ Ast.Semantic.Type @ "function" $ ""
-                    )
-            @>
-            do \(x :: Ast.Node "syntax-analyzed" "literal/array") -> do
-                y <- Semantic.Literal.Array.analyze x
+                    pure
+                        ( inject y
+                        , Ast.Syntax.location $ Ast.attributes x
+                        , inject $ Ast.Semantic.Type @ "function" $ ""
+                        )
+                @>
+                do \(x :: Ast.Node "syntax-analyzed" "literal/array") -> do
+                    y <- Semantic.Literal.Array.analyze x
 
-                pure
-                    ( inject y
-                    , Ast.Syntax.location $ Ast.attributes x
-                    , inject $ Ast.Semantic.Type @ "array" $ Ast.children y >>=
-                        do \(x :: Ast.Node "semantic-analyzed" "expression") -> do
-                            let Ast.Semantic.ExpressionAttributes _ t = Ast.attributes x
+                    pure
+                        ( inject y
+                        , Ast.Syntax.location $ Ast.attributes x
+                        , inject $ Ast.Semantic.Type @ "array" $ Ast.children y >>=
+                            do \(x :: Ast.Node "semantic-analyzed" "expression") -> do
+                                let Ast.Semantic.ExpressionAttributes _ t = Ast.attributes x
 
-                            [t]
-                        @>
-                        do const []
-                    )
-            @>
-            do \(x :: Ast.Node "syntax-analyzed" "literal/number") -> do
-                y <- Semantic.Literal.Number.analyze x
+                                [t]
+                            @>
+                            do const []
+                        )
+                @>
+                do \(x :: Ast.Node "syntax-analyzed" "literal/number") -> do
+                    y <- Semantic.Literal.Number.analyze x
 
-                pure
-                    ( inject y
-                    , Ast.Syntax.location $ Ast.attributes x
-                    , inject $ Ast.Semantic.Type @ "number" $ Ast.children y
-                    )
-            @>
-            do \(x :: Ast.Node "syntax-analyzed" "literal/object") -> do
-                y <- Semantic.Literal.Object.analyze x
+                    pure
+                        ( inject y
+                        , Ast.Syntax.location $ Ast.attributes x
+                        , inject $ Ast.Semantic.Type @ "number" $ Ast.children y
+                        )
+                @>
+                do \(x :: Ast.Node "syntax-analyzed" "literal/object") -> do
+                    y <- Semantic.Literal.Object.analyze x
 
-                pure
-                    ( inject y
-                    , Ast.Syntax.location $ Ast.attributes x
-                    , inject $ Ast.Semantic.Type @ "object" $ undefined
-                    )
-            @>
-            do \(x :: Ast.Node "syntax-analyzed" "literal/string") -> do
-                y <- Semantic.Literal.String.analyze x
+                    pure
+                        ( inject y
+                        , Ast.Syntax.location $ Ast.attributes x
+                        , inject $ Ast.Semantic.Type @ "object" $ undefined
+                        )
+                @>
+                do \(x :: Ast.Node "syntax-analyzed" "literal/string") -> do
+                    y <- Semantic.Literal.String.analyze x
 
-                pure
-                    ( inject y
-                    , Ast.Syntax.location $ Ast.attributes x
-                    , inject $ Ast.Semantic.Type @ "string" $ ""
-                    )
-            @>
-            do \(x :: Ast.Node "syntax-analyzed" "type-expression") -> do
-                y <- Semantic.TypeExpression.analyze x
+                    pure
+                        ( inject y
+                        , Ast.Syntax.location $ Ast.attributes x
+                        , inject $ Ast.Semantic.Type @ "string" $ ""
+                        )
+                @>
+                do \(x :: Ast.Node "syntax-analyzed" "type-expression") -> do
+                    y <- Semantic.TypeExpression.analyze x
 
-                pure
-                    ( inject y
-                    , Ast.Syntax.location $ Ast.attributes x
-                    , inject $ Ast.Semantic.Type @ "unknown" ()
-                    )
-            @>
-            typesExhausted
+                    pure
+                        ( inject y
+                        , Ast.Syntax.location $ Ast.attributes x
+                        , inject $ Ast.Semantic.Type @ "unknown" ()
+                        )
+                @>
+                typesExhausted
 
-        result <- get termRef >>= \case
-            Nothing -> pure nextTerm
-            Just prevTerm -> apply prevTerm nextTerm location
+            result <- get termRef >>= \case
+                Nothing -> pure nextTerm
+                Just prevTerm -> apply prevTerm nextTerm location
 
-        set termRef $ Just result
+            set termRef $ Just result
 
-        pure ast
+            pure ast
+        )
+        do Ast.children x
 
     term <- get termRef
 
