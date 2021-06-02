@@ -14,10 +14,10 @@ analyze x = do
         do Ast.attributes x
         <$> mapM
             (
-                do \(x :: Ast.Node "syntax-analyzed" "expression") -> do
+                do \(x :: Ast.Node "syntax-analyzed" "expression") ->
                     inject <$> Semantic.Expression.analyze x
                 @>
-                do \(x :: Ast.Node "syntax-analyzed" "statement/base") -> do
+                do \(x :: Ast.Node "syntax-analyzed" "statement/base") ->
                     inject <$> Semantic.Statement.BaseStatement.analyze x
                 @>
                 typesExhausted
