@@ -34,7 +34,7 @@ analyze x =
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/let") ->
                         inject <$> do
-                            node <- Semantic.Statement.LetStatement.analyze x
+                            node <- Semantic.Statement.LetStatement.analyze memberStoreRef x
 
                             let (identifierNode, expressionNode) = Ast.children $ Ast.children node
 

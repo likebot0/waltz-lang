@@ -2,6 +2,7 @@ module Global
     ( module Global
     , module Control.Monad.Freer
     , module Control.Monad.Trans
+    , Data.IORef.IORef
     , module Data.OpenUnion
     , module Data.Proxy
     , module GHC.TypeLits
