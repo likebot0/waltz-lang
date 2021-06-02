@@ -20,11 +20,14 @@ type All a =
     , Node a "key-value"
     , Node a "lambda-expression"
     , Node a "root"
+    , Node a "root/statement/base"
+    , Node a "statement/let"
+    , Node a "statement/include"
+    , Node a "statement/if"
+    , Node a "statement/with"
     , Node a "type-expression"
     ]
     :++: Literal a
-    :++: RootStatement a
-    :++: Statement a
 
 type Literal a =
     [ Node a "literal/array"
@@ -33,18 +36,14 @@ type Literal a =
     , Node a "literal/string"
     ]
 
-type RootStatement a =
-    '[ Node a "root/statement/base"
-    ]
-
-type Statement a =
-    [ Node a "statement/let"
-    , Node a "statement/if"
-    , Node a "statement/with"
-    ]
-
 type CurlyBracketsBody a =
-    [Union (Node a "discard" : Statement a)]
+    [Union
+        [ Node a "discard"
+        , Node a "statement/let"
+        , Node a "statement/if"
+        , Node a "statement/with"
+        ]
+    ]
 
 type instance Children a "block-expression" =
     CurlyBracketsBody a
@@ -79,13 +78,29 @@ type instance Children a "lambda-expression" =
     )
 
 type instance Children a "literal/array" =
-    [Union (Node a "discard" : Node a "expression" : Node a "statement/include" : Statement a)]
+    [Union
+        [ Node a "discard"
+        , Node a "expression"
+        , Node a "statement/let"
+        , Node a "statement/if"
+        , Node a "statement/include"
+        , Node a "statement/with"
+        ]
+    ]
 
 type instance Children a "literal/number" =
     String
 
 type instance Children a "literal/object" =
-    [Union (Node a "discard" : Node a "key-value" : Node a "statement/include" : Statement a)]
+    [Union
+        [ Node a "discard"
+        , Node a "key-value"
+        , Node a "statement/let"
+        , Node a "statement/if"
+        , Node a "statement/include"
+        , Node a "statement/with"
+        ]
+    ]
 
 type instance Children a "literal/string" =
     [Union
@@ -95,7 +110,11 @@ type instance Children a "literal/string" =
     ]
 
 type instance Children a "root" =
-    [Union (Node a "expression" : RootStatement a)]
+    [Union
+        [ Node a "expression"
+        , Node a "root/statement/base"
+        ]
+    ]
 
 type instance Children a "root/statement/base" =
     Node a "identifier"
