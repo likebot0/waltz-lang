@@ -1,4 +1,4 @@
-module Semantic.Shared where
+module Semantic.Common where
 
 import Global
 import Context.Funs

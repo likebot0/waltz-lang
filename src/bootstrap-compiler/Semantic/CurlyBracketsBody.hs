@@ -7,7 +7,7 @@ import qualified Ast.Syntax
 import qualified Data.HashMap.Strict
 import qualified Semantic.Analyzer
 import qualified Semantic.Discard
-import qualified Semantic.Shared
+import qualified Semantic.Common
 import qualified Semantic.KeyValue
 import qualified Semantic.Statement.IfStatement
 import qualified Semantic.Statement.LetStatement
@@ -17,7 +17,7 @@ type MemberStore = Data.HashMap.Strict.HashMap String (Ast.Node "semantic-analyz
 
 analyze :: Semantic.Analyzer.Constraint e => Ast.CurlyBracketsBody "syntax-analyzed" -> Eff e (Ast.CurlyBracketsBody "semantic-analyzed", MemberStore)
 analyze body = do
-    Semantic.Shared.newScope \memberStoreRef -> do
+    Semantic.Common.newScope \memberStoreRef -> do
         (,)
             <$> mapM
                 (

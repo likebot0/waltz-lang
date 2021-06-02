@@ -13,13 +13,13 @@ import qualified Syntax.Literal.Array
 import qualified Syntax.Literal.Number
 import qualified Syntax.Literal.Object
 import qualified Syntax.Literal.String
-import qualified Syntax.Shared
+import qualified Syntax.Common
 import qualified Syntax.TypeExpression
 import qualified Syntax.Whitespace
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "expression")
-analyzer end = Syntax.Shared.node do
-    Syntax.Shared.between
+analyzer end = Syntax.Common.node do
+    Syntax.Common.between
         do lookAhead $ noneOf "\\: \t#\r\n,;)]}"
         do lookAhead $ choice
             [ eof

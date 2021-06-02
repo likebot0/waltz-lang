@@ -11,12 +11,12 @@ import qualified Semantic.Statement.IfStatement
 import qualified Semantic.Statement.IncludeStatement
 import qualified Semantic.Statement.LetStatement
 import qualified Semantic.Statement.WithStatement
-import qualified Semantic.Shared
+import qualified Semantic.Common
 import qualified Data.HashMap.Strict
 
 analyze :: Semantic.Analyzer.Analyze "literal/array"
 analyze x = do
-    Semantic.Shared.newScope \memberStoreRef -> do
+    Semantic.Common.newScope \memberStoreRef -> do
         Ast.Node
             do Ast.attributes x
             <$> mapM

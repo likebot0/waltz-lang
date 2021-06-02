@@ -8,19 +8,19 @@ import qualified Data.Maybe
 import qualified Syntax.Analyzer
 import qualified Syntax.Identifier
 import qualified Syntax.Ignored
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "statement/base")
-analyzer = Syntax.Shared.node do
-    Syntax.Shared.keyword "\\base"
+analyzer = Syntax.Common.node do
+    Syntax.Common.keyword "\\base"
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ noneOf "\\: \t#\r\n,;\"()[]{}"
 
     identifier <- Syntax.Identifier.analyzer
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ oneOf "#\r\n,"
 

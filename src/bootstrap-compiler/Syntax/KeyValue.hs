@@ -8,17 +8,17 @@ import qualified Syntax.Analyzer
 import {-# SOURCE #-} qualified Syntax.Expression
 import qualified Syntax.Identifier
 import qualified Syntax.Ignored
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "key-value")
-analyzer end = Syntax.Shared.node do
+analyzer end = Syntax.Common.node do
     identifier <- Syntax.Identifier.analyzer
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do single ':'
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ noneOf "\\: \t#\r\n,;)]}"
 

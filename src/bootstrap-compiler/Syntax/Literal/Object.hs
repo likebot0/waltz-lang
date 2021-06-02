@@ -9,7 +9,7 @@ import qualified Syntax.Comment
 import qualified Syntax.Discard
 import qualified Syntax.KeyValue
 import qualified Syntax.Separator
-import qualified Syntax.Shared
+import qualified Syntax.Common
 import qualified Syntax.Statement.IfStatement
 import qualified Syntax.Statement.IncludeStatement
 import qualified Syntax.Statement.LetStatement
@@ -18,8 +18,8 @@ import qualified Syntax.UnexpectedStatement
 import qualified Syntax.Whitespace
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "literal/object")
-analyzer = Syntax.Shared.node do
-    Syntax.Shared.between
+analyzer = Syntax.Common.node do
+    Syntax.Common.between
         do single '{'
         do single '}'
         do choice

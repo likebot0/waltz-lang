@@ -8,7 +8,7 @@ import qualified Syntax.Analyzer
 import qualified Syntax.Comment
 import qualified Syntax.Discard
 import qualified Syntax.Separator
-import qualified Syntax.Shared
+import qualified Syntax.Common
 import qualified Syntax.Statement.IfStatement
 import qualified Syntax.Statement.LetStatement
 import qualified Syntax.Statement.WithStatement
@@ -17,7 +17,7 @@ import qualified Syntax.Whitespace
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.CurlyBracketsBody "syntax-analyzed")
 analyzer =
-    Syntax.Shared.between
+    Syntax.Common.between
         do single '{'
         do single '}'
         do choice

@@ -8,13 +8,13 @@ import qualified Data.Maybe
 import qualified Syntax.Analyzer
 import {-# SOURCE #-} qualified Syntax.Expression
 import qualified Syntax.Ignored
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "discard")
-analyzer end = Syntax.Shared.node do
+analyzer end = Syntax.Common.node do
     single ':'
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ choice
             [ () <$ oneOf end

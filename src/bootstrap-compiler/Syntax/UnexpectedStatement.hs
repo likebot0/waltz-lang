@@ -5,7 +5,7 @@ import Text.Megaparsec
 import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
-import qualified Syntax.Shared
+import qualified Syntax.Common
 import qualified Syntax.UnexpectedEndOfInput
 import qualified Syntax.UnexpectedToken
 

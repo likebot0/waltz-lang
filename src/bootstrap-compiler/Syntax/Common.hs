@@ -1,4 +1,4 @@
-module Syntax.Shared where
+module Syntax.Common where
 
 import Global
 import Context.Funs

@@ -10,32 +10,32 @@ import {-# SOURCE #-} qualified Syntax.CurlyBrackets
 import {-# SOURCE #-} qualified Syntax.Expression
 import qualified Syntax.Ignored
 import qualified Syntax.Separator
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "statement/if")
-analyzer end = Syntax.Shared.node do
-    Syntax.Shared.keyword "\\if"
+analyzer end = Syntax.Common.node do
+    Syntax.Common.keyword "\\if"
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ noneOf "\\: \t#\r\n,;)]}"
 
     expression <- Syntax.Expression.analyzer $ "," ++ end
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do choice
             [ Syntax.Separator.analyzer
             , Syntax.Ignored.analyzer
             ]
-        do Syntax.Shared.keyword "\\then"
+        do Syntax.Common.keyword "\\then"
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ single '{'
 
     body <- Syntax.CurlyBrackets.analyzer
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ choice
             [ eof

@@ -8,13 +8,13 @@ import qualified Data.Maybe
 import qualified Syntax.Analyzer
 import qualified Syntax.KeyValue
 import qualified Syntax.Ignored
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "statement/let")
-analyzer end = Syntax.Shared.node do
-    Syntax.Shared.keyword "\\let"
+analyzer end = Syntax.Common.node do
+    Syntax.Common.keyword "\\let"
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ noneOf "\\: \t#\r\n,;\"()[]{}"
 

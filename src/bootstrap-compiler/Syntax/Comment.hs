@@ -5,11 +5,11 @@ import Text.Megaparsec
 import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.Analyzer ()
 analyzer = () <$ do
-    Syntax.Shared.between
+    Syntax.Common.between
         do single '#'
         do choice
             [ eof

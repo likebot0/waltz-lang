@@ -7,19 +7,19 @@ import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import {-# SOURCE #-} qualified Syntax.CurlyBrackets
 import qualified Syntax.Ignored
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "statement/with")
-analyzer end = Syntax.Shared.node do
-    Syntax.Shared.keyword "\\with"
+analyzer end = Syntax.Common.node do
+    Syntax.Common.keyword "\\with"
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ single '{'
 
     body <- Syntax.CurlyBrackets.analyzer
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ choice
             [ eof

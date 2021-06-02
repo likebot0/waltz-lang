@@ -6,10 +6,10 @@ import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import {-# SOURCE #-} qualified Syntax.Expression
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "statement/include")
-analyzer end = Syntax.Shared.node do
-    Syntax.Shared.keyword "\\include"
+analyzer end = Syntax.Common.node do
+    Syntax.Common.keyword "\\include"
 
     Syntax.Expression.analyzer $ "," ++ end

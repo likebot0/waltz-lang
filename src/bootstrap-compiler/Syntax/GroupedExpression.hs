@@ -7,19 +7,19 @@ import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import {-# SOURCE #-} qualified Syntax.Expression
 import qualified Syntax.Ignored
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "grouped-expression")
-analyzer = Syntax.Shared.node do
+analyzer = Syntax.Common.node do
     single '('
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ noneOf "\\: \t#\r\n,;)]}"
 
     expression <- Syntax.Expression.analyzer ")"
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do single ')'
 

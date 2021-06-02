@@ -7,18 +7,18 @@ import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import qualified Syntax.CurlyBrackets
 import qualified Syntax.Ignored
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "block-expression")
-analyzer = Syntax.Shared.node do
+analyzer = Syntax.Common.node do
     choice
-        [ Syntax.Shared.keyword "do"
-        , Syntax.Shared.keyword "repeat"
-        , Syntax.Shared.keyword "static-do"
-        , Syntax.Shared.keyword "static-repeat"
+        [ Syntax.Common.keyword "do"
+        , Syntax.Common.keyword "repeat"
+        , Syntax.Common.keyword "static-do"
+        , Syntax.Common.keyword "static-repeat"
         ]
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ single '{'
 

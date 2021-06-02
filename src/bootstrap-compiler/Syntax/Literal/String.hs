@@ -6,13 +6,13 @@ import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import qualified Syntax.GroupedExpression
-import qualified Syntax.Shared
+import qualified Syntax.Common
 import qualified Syntax.UnexpectedEndOfInput
 import qualified Syntax.UnexpectedToken
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "literal/string")
-analyzer = Syntax.Shared.node do
-    Syntax.Shared.between
+analyzer = Syntax.Common.node do
+    Syntax.Common.between
         do single '"'
         do single '"'
         do choice

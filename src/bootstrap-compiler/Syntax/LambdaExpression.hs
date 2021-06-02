@@ -9,19 +9,19 @@ import qualified Syntax.Analyzer
 import qualified Syntax.CurlyBrackets
 import qualified Syntax.Identifier
 import qualified Syntax.Ignored
-import qualified Syntax.Shared
+import qualified Syntax.Common
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "lambda-expression")
-analyzer = Syntax.Shared.node do
-    Syntax.Shared.keyword "fun"
+analyzer = Syntax.Common.node do
+    Syntax.Common.keyword "fun"
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ noneOf "\\: \t#\r\n,;\"()[]}"
 
     identifier <- optional Syntax.Identifier.analyzer
 
-    Syntax.Shared.skipManyTill
+    Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
         do lookAhead $ single '{'
 

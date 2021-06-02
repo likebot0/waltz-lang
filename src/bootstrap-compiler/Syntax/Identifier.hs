@@ -6,9 +6,9 @@ import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import qualified Syntax.Punctuation
-import qualified Syntax.Shared
+import qualified Syntax.Common
 import qualified Syntax.Whitespace
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "identifier")
-analyzer = Syntax.Shared.node do
+analyzer = Syntax.Common.node do
     some $ noneOf "\\: \t#\r\n,;\"()[]{}"

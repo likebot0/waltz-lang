@@ -6,12 +6,12 @@ import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import qualified Syntax.Punctuation
-import qualified Syntax.Shared
+import qualified Syntax.Common
 import qualified Syntax.UnexpectedToken
 import qualified Syntax.Whitespace
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "literal/number")
-analyzer = Syntax.Shared.node do
+analyzer = Syntax.Common.node do
     choice
         [ (:)
             <$> oneOf "123456789"

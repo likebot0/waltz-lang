@@ -9,13 +9,13 @@ import qualified Syntax.Comment
 import qualified Syntax.Expression
 import qualified Syntax.Statement.BaseStatement
 import qualified Syntax.Separator
-import qualified Syntax.Shared
+import qualified Syntax.Common
 import qualified Syntax.UnexpectedStatement
 import qualified Syntax.Whitespace
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "root")
-analyzer = Syntax.Shared.node do
-    Syntax.Shared.between
+analyzer = Syntax.Common.node do
+    Syntax.Common.between
         do optional $ lookAhead anySingle
         do eof
         do choice
