@@ -18,22 +18,22 @@ analyze x = do
 
     do
         Ast.Node
-            <$> do
-                (,)
-                    <$> case identifier of
-                        Nothing -> pure Nothing
-                        Just x -> do
-                            result <- Semantic.Identifier.analyze x
+            <$> ((,)
+                <$> case identifier of
+                    Nothing -> pure Nothing
+                    Just x -> do
+                        result <- Semantic.Identifier.analyze x
 
-                            let Ast.Node identifier _ = result
+                        let Ast.Node identifier _ = result
 
-                            argumentStore <- get argumentStoreRef
+                        argumentStore <- get argumentStoreRef
 
-                            set argumentStoreRef do
-                                Data.HashMap.Strict.insert identifier result argumentStore
+                        set argumentStoreRef do
+                            Data.HashMap.Strict.insert identifier result argumentStore
 
-                            pure $ Just result
-                    <*> Semantic.CurlyBracketsBody.analyze body
+                        pure $ Just result
+                <*> Semantic.CurlyBracketsBody.analyze body
+            )
             <*> do pure $ Ast.attributes x
         -- Handle local identifiers
         |> with @ "resolve" do
