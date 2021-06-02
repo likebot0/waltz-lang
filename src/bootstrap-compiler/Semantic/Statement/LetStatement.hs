@@ -10,14 +10,14 @@ import qualified Semantic.KeyValue
 
 analyze :: IORef (Data.HashMap.Strict.HashMap String (Ast.Node "semantic-analyzed" "expression")) -> Semantic.Analyzer.Analyze "statement/let"
 analyze memberStoreRef x = do
-    keyValueNode <- Semantic.KeyValue.analyze $ Ast.children x
+    keyValue <- Semantic.KeyValue.analyze $ Ast.children x
 
-    let (key, value) = Ast.children keyValueNode
+    let (key, value) = Ast.children keyValue
 
     memberStore <- get memberStoreRef
 
     set memberStoreRef $ Data.HashMap.Strict.insert (Ast.children key) value memberStore
 
     pure $ Ast.Node
-        do keyValueNode
+        do keyValue
         do Ast.attributes x
