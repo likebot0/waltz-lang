@@ -62,6 +62,7 @@ executable bootstrap-compiler
     Syntax.Analyzer
     Syntax.Comment
     Syntax.BlockExpression
+    Syntax.Common
     Syntax.CurlyBrackets
     Syntax.Expression
     Syntax.Diagnostic.Position
@@ -78,7 +79,6 @@ executable bootstrap-compiler
     Syntax.Punctuation
     Syntax.Root
     Syntax.Separator
-    Syntax.Common
     Syntax.Statement.BaseStatement
     Syntax.Statement.IfStatement
     Syntax.Statement.IncludeStatement
