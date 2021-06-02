@@ -101,6 +101,9 @@ analyze x = do
                         do \(x :: Ast.Node "semantic-analyzed" "statement/if") ->
                             []
                         @>
+                        do \(x :: Ast.Node "semantic-analyzed" "statement/include") ->
+                            []
+                        @>
                         do \(x :: Ast.Node "semantic-analyzed" "statement/let") ->
                             []
                         @>
