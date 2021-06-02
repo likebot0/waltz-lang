@@ -25,7 +25,7 @@ analyze x = do
                         Just x -> do
                             result <- Semantic.Identifier.analyze x
 
-                            let Ast.Node _ identifier = result
+                            let Ast.Node identifier _ = result
 
                             argumentStore <- get argumentStoreRef
 
