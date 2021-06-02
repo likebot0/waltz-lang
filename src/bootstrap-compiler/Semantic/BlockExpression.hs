@@ -12,7 +12,7 @@ analyze x = do
     let body = Ast.children x
 
     Ast.Node
-        <$> do fst <$> Semantic.CurlyBracketsBody.analyze body
+        <$> Semantic.CurlyBracketsBody.analyze body
         <*> do pure $ Ast.attributes x
 
     |> with @ "resolve" do

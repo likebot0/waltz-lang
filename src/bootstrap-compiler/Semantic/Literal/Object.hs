@@ -44,4 +44,4 @@ analyze x =
             <*> do
                 Ast.Semantic.CurlyBracketsAttributes
                     <$> do pure $ Ast.Syntax.location $ Ast.attributes x
-                    <*> do get memberStoreRef
+                    <*> get memberStoreRef

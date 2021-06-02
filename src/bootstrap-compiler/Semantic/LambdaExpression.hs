@@ -33,8 +33,7 @@ analyze x = do
                                 Data.HashMap.Strict.insert identifier result argumentStore
 
                             pure $ Just result
-                <*> do
-                    fst <$> Semantic.CurlyBracketsBody.analyze body
+                <*> Semantic.CurlyBracketsBody.analyze body
             )
             <*> do pure $ Ast.attributes x
         -- Handle local identifiers
