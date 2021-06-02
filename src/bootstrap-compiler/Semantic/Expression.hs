@@ -90,27 +90,12 @@ analyze x = do
                     ( inject y
                     , Ast.Syntax.location $ Ast.attributes x
                     , inject $ Ast.Semantic.Type @ "array" $ Ast.children y >>=
-                        do \(x :: Ast.Node "semantic-analyzed" "discard") ->
-                            []
-                        @>
                         do \(x :: Ast.Node "semantic-analyzed" "expression") -> do
                             let Ast.Semantic.ExpressionAttributes _ t = Ast.attributes x
 
                             [t]
                         @>
-                        do \(x :: Ast.Node "semantic-analyzed" "statement/if") ->
-                            []
-                        @>
-                        do \(x :: Ast.Node "semantic-analyzed" "statement/include") ->
-                            []
-                        @>
-                        do \(x :: Ast.Node "semantic-analyzed" "statement/let") ->
-                            []
-                        @>
-                        do \(x :: Ast.Node "semantic-analyzed" "statement/with") ->
-                            []
-                        @>
-                        typesExhausted
+                        do const []
                     )
             @>
             do \(x :: Ast.Node "syntax-analyzed" "literal/number") -> do
