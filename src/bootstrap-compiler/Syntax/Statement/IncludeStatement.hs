@@ -12,4 +12,4 @@ analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "statement/inclu
 analyzer end = Syntax.Shared.node do
     Syntax.Shared.keyword "\\include"
 
-    Syntax.Expression.analyzer end
+    Syntax.Expression.analyzer $ "," ++ end
