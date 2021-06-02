@@ -54,6 +54,12 @@ with f m = do
 
     m |> Control.Monad.Freer.Internal.handleRelay pure (\UseContext k -> k x)
 
+withControl :: forall s e a. Eff e (UseContext s) -> Eff (UseContext s : e) a -> Eff e a
+withControl f m = do
+    g <- f
+
+    m |> Control.Monad.Freer.Internal.handleRelay pure (\UseContext k -> g k)
+
 withRaiseHandler :: forall e a. (forall b. Show b => b -> Eff (Return a : e) a) -> Eff (Raise : e) a -> Eff e a
 withRaiseHandler f =
     Control.Monad.Freer.Internal.handleRelay pure (\(Raise x) _ ->
