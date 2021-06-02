@@ -53,8 +53,8 @@ executable bootstrap-compiler
     Semantic.Literal.Object
     Semantic.Literal.String
     Semantic.Root
-    Semantic.Root.Statement.Base
     Semantic.Shared
+    Semantic.Statement.Base
     Semantic.Statement.IfStatement
     Semantic.Statement.LetStatement
     Semantic.Statement.WithStatement
