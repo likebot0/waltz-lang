@@ -19,38 +19,37 @@ analyze x = do
     Semantic.Shared.newScope \memberStoreRef -> do
         Ast.Node
             do Ast.attributes x
-            <$> sequence do
-                fmap
-                    (
-                        do \(x :: Ast.Node "syntax-analyzed" "discard") ->
-                            inject <$> Semantic.Discard.analyze x
-                        @>
-                        do \(x :: Ast.Node "syntax-analyzed" "expression") ->
-                            inject <$> Semantic.Expression.analyze x
-                        @>
-                        do \(x :: Ast.Node "syntax-analyzed" "statement/if") ->
-                            inject <$> Semantic.Statement.IfStatement.analyze x
-                        @>
-                        do \(x :: Ast.Node "syntax-analyzed" "statement/include") ->
-                            inject <$> Semantic.Statement.IncludeStatement.analyze x
-                        @>
-                        do \(x :: Ast.Node "syntax-analyzed" "statement/let") ->
-                            inject <$> do
-                                node <- Semantic.Statement.LetStatement.analyze x
+            <$> mapM
+                (
+                    do \(x :: Ast.Node "syntax-analyzed" "discard") ->
+                        inject <$> Semantic.Discard.analyze x
+                    @>
+                    do \(x :: Ast.Node "syntax-analyzed" "expression") ->
+                        inject <$> Semantic.Expression.analyze x
+                    @>
+                    do \(x :: Ast.Node "syntax-analyzed" "statement/if") ->
+                        inject <$> Semantic.Statement.IfStatement.analyze x
+                    @>
+                    do \(x :: Ast.Node "syntax-analyzed" "statement/include") ->
+                        inject <$> Semantic.Statement.IncludeStatement.analyze x
+                    @>
+                    do \(x :: Ast.Node "syntax-analyzed" "statement/let") ->
+                        inject <$> do
+                            node <- Semantic.Statement.LetStatement.analyze x
 
-                                let (identifierNode, expressionNode) = Ast.children $ Ast.children node
+                            let (identifierNode, expressionNode) = Ast.children $ Ast.children node
 
-                                let identifier = Ast.children identifierNode
+                            let identifier = Ast.children identifierNode
 
-                                memberStore <- get memberStoreRef
+                            memberStore <- get memberStoreRef
 
-                                set memberStoreRef $ Data.HashMap.Strict.insert identifier expressionNode memberStore
+                            set memberStoreRef $ Data.HashMap.Strict.insert identifier expressionNode memberStore
 
-                                pure node
-                        @>
-                        do \(x :: Ast.Node "syntax-analyzed" "statement/with") ->
-                            inject <$> Semantic.Statement.WithStatement.analyze x
-                        @>
-                        typesExhausted
-                    )
-                    do Ast.children x 
+                            pure node
+                    @>
+                    do \(x :: Ast.Node "syntax-analyzed" "statement/with") ->
+                        inject <$> Semantic.Statement.WithStatement.analyze x
+                    @>
+                    typesExhausted
+                )
+                do Ast.children x 
