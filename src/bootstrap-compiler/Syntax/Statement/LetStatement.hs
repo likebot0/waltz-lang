@@ -6,8 +6,8 @@ import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import qualified Syntax.Common
-import qualified Syntax.KeyValue
 import qualified Syntax.Ignored
+import qualified Syntax.KeyValue
 
 analyzer :: Syntax.Analyzer.WithEnd (Ast.Node "syntax-analyzed" "statement/let")
 analyzer end = Syntax.Common.node do
