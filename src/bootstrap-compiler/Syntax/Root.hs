@@ -7,7 +7,7 @@ import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import qualified Syntax.Comment
 import qualified Syntax.Expression
-import qualified Syntax.Root.Statement
+import qualified Syntax.Root.Statement.Base
 import qualified Syntax.Separator
 import qualified Syntax.Shared
 import qualified Syntax.UnexpectedStatement
@@ -21,8 +21,8 @@ analyzer = Syntax.Shared.node do
         do choice
             [ inject <$> do
                 Syntax.Expression.analyzer ","
-            , reinterpret <$> do
-                Syntax.Root.Statement.analyzer
+            , inject <$> do
+                Syntax.Root.Statement.Base.analyzer
             ]
         do choice
             [ Syntax.Comment.analyzer

@@ -81,7 +81,6 @@ executable bootstrap-compiler
     Syntax.Root.Statement.Base
     Syntax.Separator
     Syntax.Shared
-    Syntax.Statement
     Syntax.Statement.IfStatement
     Syntax.Statement.LetStatement
     Syntax.Statement.WithStatement
