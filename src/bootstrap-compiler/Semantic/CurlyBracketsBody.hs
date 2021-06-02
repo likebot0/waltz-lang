@@ -60,5 +60,5 @@ analyze body = do
                     @>
                     typesExhausted
                 )
-                do body
+                body
             <*> get memberStoreRef
