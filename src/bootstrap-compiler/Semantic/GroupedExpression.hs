@@ -8,7 +8,7 @@ import qualified Semantic.Analyzer
 import {-# SOURCE #-} qualified Semantic.Expression
 
 analyze :: Semantic.Analyzer.Analyze "grouped-expression"
-analyze x =
+analyze x = do
     Ast.Node
         <$> do Semantic.Expression.analyze $ Ast.children x
         <*> do pure $ Ast.attributes x

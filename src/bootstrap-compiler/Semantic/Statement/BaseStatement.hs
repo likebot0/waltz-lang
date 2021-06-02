@@ -9,8 +9,6 @@ import qualified Semantic.Identifier
 
 analyze :: Semantic.Analyzer.Analyze "statement/base"
 analyze x = do
-    let identifier = Ast.children x
-
     Ast.Node
-        <$> Semantic.Identifier.analyze identifier
+        <$> do Semantic.Identifier.analyze $ Ast.children x
         <*> do pure $ Ast.attributes x

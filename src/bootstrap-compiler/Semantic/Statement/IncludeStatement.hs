@@ -9,8 +9,6 @@ import {-# SOURCE #-} qualified Semantic.Expression
 
 analyze :: Semantic.Analyzer.Analyze "statement/include"
 analyze x = do
-    let expression = Ast.children x
-
     Ast.Node
-        <$> Semantic.Expression.analyze expression
+        <$> do Semantic.Expression.analyze $ Ast.children x
         <*> do pure $ Ast.attributes x
