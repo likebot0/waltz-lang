@@ -6,7 +6,7 @@ import qualified Ast.Semantic
 import qualified Ast.Syntax
 import qualified Semantic.Analyzer
 import qualified Semantic.Expression
-import qualified Semantic.Statement.Base
+import qualified Semantic.Statement.BaseStatement
 
 analyze :: Semantic.Analyzer.Analyze "root"
 analyze x = do
@@ -18,6 +18,6 @@ analyze x = do
                     pure $ inject <$> Semantic.Expression.analyze x
                 @>
                 do \(x :: Ast.Node "syntax-analyzed" "statement/base") -> do
-                    pure $ inject <$> Semantic.Statement.Base.analyze x
+                    pure $ inject <$> Semantic.Statement.BaseStatement.analyze x
                 @>
                 typesExhausted

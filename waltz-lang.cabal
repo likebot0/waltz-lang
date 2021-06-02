@@ -54,7 +54,7 @@ executable bootstrap-compiler
     Semantic.Literal.String
     Semantic.Root
     Semantic.Shared
-    Semantic.Statement.Base
+    Semantic.Statement.BaseStatement
     Semantic.Statement.IfStatement
     Semantic.Statement.LetStatement
     Semantic.Statement.WithStatement
@@ -79,7 +79,7 @@ executable bootstrap-compiler
     Syntax.Root
     Syntax.Separator
     Syntax.Shared
-    Syntax.Statement.Base
+    Syntax.Statement.BaseStatement
     Syntax.Statement.IfStatement
     Syntax.Statement.IncludeStatement
     Syntax.Statement.LetStatement

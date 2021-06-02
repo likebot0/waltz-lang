@@ -1,4 +1,4 @@
-module Semantic.Statement.Base where
+module Semantic.Statement.BaseStatement where
 
 import Global
 import qualified Ast
