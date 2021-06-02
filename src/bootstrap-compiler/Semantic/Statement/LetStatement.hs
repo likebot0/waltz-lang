@@ -12,14 +12,6 @@ type VariableStore = Data.HashMap.Strict.HashMap String (Ast.Node "semantic-anal
 
 analyze :: IORef VariableStore -> Semantic.Analyzer.Analyze "statement/let"
 analyze variableStoreRef x = do
-    keyValue <- Semantic.KeyValue.analyze variableStoreRef $ Ast.children x
-
-    let (key, value) = Ast.children keyValue
-
-    variableStore <- get variableStoreRef
-
-    set variableStoreRef $ Data.HashMap.Strict.insert (Ast.children key) value variableStore
-
-    pure $ Ast.Node
-        do keyValue
-        do Ast.attributes x
+    Ast.Node
+        <$> do Semantic.KeyValue.analyze variableStoreRef $ Ast.children x
+        <*> do pure $ Ast.attributes x
