@@ -8,6 +8,7 @@ import qualified Semantic.Analyzer
 import qualified Semantic.Discard
 import {-# SOURCE #-} qualified Semantic.Expression
 import qualified Semantic.Statement.IfStatement
+import qualified Semantic.Statement.IncludeStatement
 import qualified Semantic.Statement.LetStatement
 import qualified Semantic.Statement.WithStatement
 import qualified Semantic.Shared
@@ -28,6 +29,9 @@ analyze x = do
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/if") -> do
                         pure $ inject <$> Semantic.Statement.IfStatement.analyze x
+                    @>
+                    do \(x :: Ast.Node "syntax-analyzed" "statement/include") -> do
+                        pure $ inject <$> Semantic.Statement.IncludeStatement.analyze x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/let") -> do
                         pure $ inject <$> do

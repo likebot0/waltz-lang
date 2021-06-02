@@ -50,6 +50,9 @@ type instance Ast.Attributes "semantic-analyzed" "type-expression" =
 type instance Ast.Attributes "semantic-analyzed" "statement/base" =
     Ast.Attributes "syntax-analyzed" "statement/base"
 
+type instance Ast.Attributes "semantic-analyzed" "statement/include" =
+    Ast.Attributes "syntax-analyzed" "statement/include"
+
 type instance Ast.Attributes "semantic-analyzed" "statement/if" =
     Ast.Attributes "syntax-analyzed" "statement/if"
 
