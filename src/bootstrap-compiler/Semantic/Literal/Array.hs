@@ -16,7 +16,7 @@ import qualified Data.HashMap.Strict
 
 analyze :: Semantic.Analyzer.Analyze "literal/array"
 analyze x =
-    Semantic.Common.newScope \memberStoreRef -> do
+    Semantic.Common.newScope \variableStoreRef -> do
         Ast.Node
             <$> (`mapM` Ast.children x) (
                     do \(x :: Ast.Node "syntax-analyzed" "discard") ->
@@ -32,7 +32,7 @@ analyze x =
                         inject <$> Semantic.Statement.IncludeStatement.analyze x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/let") ->
-                        inject <$> Semantic.Statement.LetStatement.analyze memberStoreRef x
+                        inject <$> Semantic.Statement.LetStatement.analyze variableStoreRef x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/with") ->
                         inject <$> Semantic.Statement.WithStatement.analyze x

@@ -7,11 +7,11 @@ import qualified Ast.Semantic
 import qualified Data.HashMap.Strict
 
 newScope f = do
-    memberStoreRef <- ref do
+    variableStoreRef <- ref do
         Data.HashMap.Strict.empty @ String @ (Ast.Node "semantic-analyzed" "expression")
 
     do
-        f memberStoreRef
+        f variableStoreRef
 
         -- Handle local identifiers
         |> with @ "resolve" do
@@ -26,9 +26,9 @@ newScope f = do
                     then return =<< super identifier
                     else pure ()
 
-                memberStore <- get memberStoreRef
+                variableStore <- get variableStoreRef
 
-                Data.HashMap.Strict.lookup identifier memberStore |> \case
+                Data.HashMap.Strict.lookup identifier variableStore |> \case
                     Just x -> return undefined
                     _ -> pure ()
 
