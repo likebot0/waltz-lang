@@ -52,6 +52,7 @@ analyze x =
                     typesExhausted
                 )
                 do Ast.children x
-            <*> do Ast.Semantic.CurlyBracketsAttributes
-                do Ast.Syntax.location $ Ast.attributes x
-                <$> do get memberStoreRef
+            <*> do
+                Ast.Semantic.CurlyBracketsAttributes
+                    <$> do pure $ Ast.Syntax.location $ Ast.attributes x
+                    <*> do get memberStoreRef
