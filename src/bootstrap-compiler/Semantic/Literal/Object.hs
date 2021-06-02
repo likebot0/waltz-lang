@@ -53,4 +53,3 @@ analyze x =
                     typesExhausted
                 )
                 do Ast.children x 
-
