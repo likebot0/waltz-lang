@@ -8,7 +8,9 @@ import qualified Data.HashMap.Strict
 import qualified Semantic.Analyzer
 import qualified Semantic.KeyValue
 
-analyze :: IORef (Data.HashMap.Strict.HashMap String (Ast.Node "semantic-analyzed" "expression")) -> Semantic.Analyzer.Analyze "statement/let"
+type VariableStore = Data.HashMap.Strict.HashMap String (Ast.Node "semantic-analyzed" "expression")
+
+analyze :: IORef VariableStore -> Semantic.Analyzer.Analyze "statement/let"
 analyze variableStoreRef x = do
     keyValue <- Semantic.KeyValue.analyze $ Ast.children x
 

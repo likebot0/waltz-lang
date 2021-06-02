@@ -24,7 +24,7 @@ analyze x =
                         inject <$> Semantic.Discard.analyze x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "key-value") ->
-                        inject <$> Semantic.KeyValue.analyze x
+                        inject <$> Semantic.KeyValue.analyze memberStoreRef x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/if") ->
                         inject <$> Semantic.Statement.IfStatement.analyze x
@@ -33,7 +33,7 @@ analyze x =
                         inject <$> Semantic.Statement.IncludeStatement.analyze x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/let") ->
-                        inject <$> Semantic.Statement.LetStatement.analyze memberStoreRef x
+                        inject <$> Semantic.Statement.LetStatement.analyze variableStoreRef x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/with") ->
                         inject <$> Semantic.Statement.WithStatement.analyze x
