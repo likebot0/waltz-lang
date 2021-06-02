@@ -131,7 +131,7 @@ type instance Children a "statement/let" =
     Node a "key-value"
 
 type instance Children a "statement/with" =
-    CurlyBracketsBody a
+    Node a "expression"
 
 type instance Children a "type-expression" =
     Node a "expression"
