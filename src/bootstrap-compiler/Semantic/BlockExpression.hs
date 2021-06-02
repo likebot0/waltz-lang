@@ -9,10 +9,8 @@ import qualified Semantic.CurlyBracketsBody
 
 analyze :: Semantic.Analyzer.Analyze "block-expression"
 analyze x = do
-    let body = Ast.children x
-
     Ast.Node
-        <$> Semantic.CurlyBracketsBody.analyze body
+        <$> do Semantic.CurlyBracketsBody.analyze $ Ast.children x
         <*> do pure $ Ast.attributes x
 
     |> with @ "resolve" do
