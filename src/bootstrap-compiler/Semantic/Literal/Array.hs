@@ -33,18 +33,7 @@ analyze x =
                         inject <$> Semantic.Statement.IncludeStatement.analyze x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/let") ->
-                        inject <$> do
-                            node <- Semantic.Statement.LetStatement.analyze x
-
-                            let (identifierNode, expressionNode) = Ast.children $ Ast.children node
-
-                            let identifier = Ast.children identifierNode
-
-                            memberStore <- get memberStoreRef
-
-                            set memberStoreRef $ Data.HashMap.Strict.insert identifier expressionNode memberStore
-
-                            pure node
+                        inject <$> Semantic.Statement.LetStatement.analyze memberStoreRef x
                     @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/with") ->
                         inject <$> Semantic.Statement.WithStatement.analyze x
