@@ -24,20 +24,6 @@ analyze body = do
                     do \(x :: Ast.Node "syntax-analyzed" "discard") ->
                         inject <$> Semantic.Discard.analyze x
                     @>
-                    do \(x :: Ast.Node "syntax-analyzed" "key-value") ->
-                        inject <$> do
-                            node <- Semantic.KeyValue.analyze x
-
-                            let (identifierNode, expressionNode) = Ast.children node
-
-                            let identifier = Ast.children identifierNode
-
-                            memberStore <- get memberStoreRef
-
-                            set memberStoreRef $ Data.HashMap.Strict.insert identifier expressionNode memberStore
-
-                            pure node
-                    @>
                     do \(x :: Ast.Node "syntax-analyzed" "statement/if") ->
                         inject <$> Semantic.Statement.IfStatement.analyze x
                     @>
