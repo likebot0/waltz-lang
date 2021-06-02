@@ -25,6 +25,14 @@ withDefault x = x
                 then return undefined
                 else pure ()
 
+　　　　　　　case identifier of
+                "break" ->
+                    raise Error.BreakNotInBlock.Type
+                "return" ->
+                    raise Error.ReturnNotInFunction.Type
+                _ ->
+                    pure ()
+
             super identifier
 
     -- Reject local identifiers
@@ -32,13 +40,9 @@ withDefault x = x
         Fun super <- useContext @ "resolve"
 
         fun \identifier -> do
-            identifier |> \case
+            case identifier of
                 '/' : _ ->
                     pure ()
-                "break" ->
-                    raise Error.BreakNotInBlock.Type
-                "return" ->
-                    raise Error.ReturnNotInFunction.Type
                 _ ->
                     raise $ Error.CannotResolve.Type identifier
 
