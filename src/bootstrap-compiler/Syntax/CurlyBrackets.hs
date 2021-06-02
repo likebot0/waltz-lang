@@ -16,7 +16,7 @@ import qualified Syntax.UnexpectedStatement
 import qualified Syntax.Whitespace
 
 analyzer :: Syntax.Analyzer.Analyzer (Ast.CurlyBracketsBody "syntax-analyzed")
-analyzer =
+analyzer = do
     Syntax.Common.between
         do single '{'
         do single '}'
