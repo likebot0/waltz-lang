@@ -77,7 +77,6 @@ executable bootstrap-compiler
     Syntax.Literal.String
     Syntax.Punctuation
     Syntax.Root
-    Syntax.Root.Statement
     Syntax.Root.Statement.Base
     Syntax.Separator
     Syntax.Shared
