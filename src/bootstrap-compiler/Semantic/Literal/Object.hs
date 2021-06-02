@@ -17,6 +17,7 @@ import qualified Data.HashMap.Strict
 analyze :: Semantic.Analyzer.Analyze "literal/object"
 analyze x =
     Semantic.Common.newScope \memberStoreRef -> do
+    Semantic.Common.newScope \variableStoreRef -> do
         Ast.Node
             <$> (`mapM` Ast.children x) (
                     do \(x :: Ast.Node "syntax-analyzed" "discard") ->
