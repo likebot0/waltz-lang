@@ -161,6 +161,10 @@ instance AttributesToJSON a => ToJSON (Children' a "statement/if") where
             , "body" .= body
             ]
 
+instance AttributesToJSON a => ToJSON (Children' a "statement/include") where
+    toJSON (Children' expression) =
+        toJSON expression
+
 instance AttributesToJSON a => ToJSON (Children' a "statement/let") where
     toJSON (Children' x) =
         toJSON x
