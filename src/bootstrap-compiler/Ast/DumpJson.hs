@@ -74,6 +74,7 @@ type AttributesToJSON a =
     , ToJSON (Ast.Attributes a "root/statement/base")
     , ToJSON (Ast.Attributes a "type-expression")
     , ToJSON (Ast.Attributes a "statement/if")
+    , ToJSON (Ast.Attributes a "statement/include")
     , ToJSON (Ast.Attributes a "statement/let")
     , ToJSON (Ast.Attributes a "statement/with")
     )

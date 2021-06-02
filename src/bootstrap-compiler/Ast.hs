@@ -124,6 +124,9 @@ type instance Children a "statement/if" =
     , CurlyBracketsBody a
     )
 
+type instance Children a "statement/include" =
+    Node a "expression"
+
 type instance Children a "statement/let" =
     Node a "key-value"
 
