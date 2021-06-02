@@ -44,7 +44,7 @@ type Statement a =
     ]
 
 type CurlyBracketsBody a =
-    [Union (Node a "discard" : Node a "key-value" : Statement a)]
+    [Union (Node a "discard" : Statement a)]
 
 type instance Children a "block-expression" =
     CurlyBracketsBody a
@@ -85,7 +85,7 @@ type instance Children a "literal/number" =
     String
 
 type instance Children a "literal/object" =
-    CurlyBracketsBody a
+    [Union (Node a "discard" : Node a "key-value" : Statement a)]
 
 type instance Children a "literal/string" =
     [Union
