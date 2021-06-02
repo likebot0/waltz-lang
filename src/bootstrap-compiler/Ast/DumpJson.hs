@@ -71,7 +71,7 @@ type AttributesToJSON a =
     , ToJSON (Ast.Attributes a "literal/object") 
     , ToJSON (Ast.Attributes a "literal/string") 
     , ToJSON (Ast.Attributes a "root")
-    , ToJSON (Ast.Attributes a "root/statement/base")
+    , ToJSON (Ast.Attributes a "statement/base")
     , ToJSON (Ast.Attributes a "type-expression")
     , ToJSON (Ast.Attributes a "statement/if")
     , ToJSON (Ast.Attributes a "statement/include")
@@ -150,7 +150,7 @@ instance AttributesToJSON a => ToJSON (Children' a "root") where
     toJSON (Children' body) =
         toJSON body
 
-instance AttributesToJSON a => ToJSON (Children' a "root/statement/base") where
+instance AttributesToJSON a => ToJSON (Children' a "statement/base") where
     toJSON (Children' identifier) =
         toJSON identifier
 

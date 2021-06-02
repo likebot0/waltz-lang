@@ -20,7 +20,7 @@ type All a =
     , Node a "key-value"
     , Node a "lambda-expression"
     , Node a "root"
-    , Node a "root/statement/base"
+    , Node a "statement/base"
     , Node a "statement/let"
     , Node a "statement/include"
     , Node a "statement/if"
@@ -112,11 +112,11 @@ type instance Children a "literal/string" =
 type instance Children a "root" =
     [Union
         [ Node a "expression"
-        , Node a "root/statement/base"
+        , Node a "statement/base"
         ]
     ]
 
-type instance Children a "root/statement/base" =
+type instance Children a "statement/base" =
     Node a "identifier"
 
 type instance Children a "statement/if" =

@@ -1,4 +1,4 @@
-module Semantic.Root.Statement.Base where
+module Semantic.Statement.Base where
 
 import Global
 import qualified Ast
@@ -7,7 +7,7 @@ import qualified Ast.Syntax
 import qualified Semantic.Analyzer
 import qualified Semantic.Identifier
 
-analyze :: Semantic.Analyzer.Analyze "root/statement/base"
+analyze :: Semantic.Analyzer.Analyze "statement/base"
 analyze x = do
     let identifier = Ast.children x
 

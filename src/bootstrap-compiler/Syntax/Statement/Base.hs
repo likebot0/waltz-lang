@@ -10,7 +10,7 @@ import qualified Syntax.Identifier
 import qualified Syntax.Ignored
 import qualified Syntax.Shared
 
-analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "root/statement/base")
+analyzer :: Syntax.Analyzer.Analyzer (Ast.Node "syntax-analyzed" "statement/base")
 analyzer = Syntax.Shared.node do
     Syntax.Shared.keyword "\\base"
 

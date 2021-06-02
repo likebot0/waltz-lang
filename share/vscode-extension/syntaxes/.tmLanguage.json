@@ -39,45 +39,7 @@
 		"root/statement": {
 			"patterns": [
 				{
-					"include": "#root/statement/base"
-				}
-			]
-		},
-		"root/statement/base": {
-			"begin": "(?=\\\\base[\\: \t#\r\n,;\"\\(\\)\\[\\]\\{\\}])",
-			"end": "(?=[#\r\n,])",
-			"patterns": [
-				{
-					"begin": "\\\\base",
-					"beginCaptures": {
-						"0": {
-							"name": "keyword.control"
-						}
-					},
-					"end": "(?=[^\\: \t#\r\n,;\"\\(\\)\\[\\]\\{\\}])",
-					"patterns": [
-						{
-							"include": "#ignored"
-						}
-					]
-				},
-				{
-					"begin": "(?=[^\\: \t#\r\n,;\"\\(\\)\\[\\]\\{\\}])",
-					"end": "(?=[#\r\n,])",
-					"patterns": [
-						{
-							"include": "#identifier"
-						},
-						{
-							"begin": "(?=.)",
-							"end": "(?=[#\r\n,])",
-							"patterns": [
-								{
-									"include": "#ignored"
-								}
-							]
-						}
-					]
+					"include": "#statement/base"
 				}
 			]
 		},
@@ -882,6 +844,44 @@
 		"separator": {
 			"match": ",",
 			"name": "punctuation.separator.comma"
+		},
+		"statement/base": {
+			"begin": "(?=\\\\base[\\: \t#\r\n,;\"\\(\\)\\[\\]\\{\\}])",
+			"end": "(?=[#\r\n,])",
+			"patterns": [
+				{
+					"begin": "\\\\base",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.control"
+						}
+					},
+					"end": "(?=[^\\: \t#\r\n,;\"\\(\\)\\[\\]\\{\\}])",
+					"patterns": [
+						{
+							"include": "#ignored"
+						}
+					]
+				},
+				{
+					"begin": "(?=[^\\: \t#\r\n,;\"\\(\\)\\[\\]\\{\\}])",
+					"end": "(?=[#\r\n,])",
+					"patterns": [
+						{
+							"include": "#identifier"
+						},
+						{
+							"begin": "(?=.)",
+							"end": "(?=[#\r\n,])",
+							"patterns": [
+								{
+									"include": "#ignored"
+								}
+							]
+						}
+					]
+				}
+			]
 		},
 		"statement/if": {
 			"begin": "(?=\\\\if[\\: \t#\r\n,;\"\\(\\)\\[\\]\\{\\}])",

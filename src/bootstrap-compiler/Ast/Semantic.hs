@@ -47,8 +47,8 @@ type instance Ast.Attributes "semantic-analyzed" "root" =
 type instance Ast.Attributes "semantic-analyzed" "type-expression" =
     Ast.Attributes "syntax-analyzed" "type-expression"
 
-type instance Ast.Attributes "semantic-analyzed" "root/statement/base" =
-    Ast.Attributes "syntax-analyzed" "root/statement/base"
+type instance Ast.Attributes "semantic-analyzed" "statement/base" =
+    Ast.Attributes "syntax-analyzed" "statement/base"
 
 type instance Ast.Attributes "semantic-analyzed" "statement/if" =
     Ast.Attributes "syntax-analyzed" "statement/if"
