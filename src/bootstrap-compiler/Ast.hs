@@ -49,7 +49,7 @@ type instance Children a "block-expression" =
     CurlyBracketsBody a
 
 type instance Children a "discard" =
-    Maybe (Node a "expression")
+    Node a "expression"
 
 type instance Children a "expression" =
     [Union (

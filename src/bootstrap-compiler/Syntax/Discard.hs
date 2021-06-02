@@ -21,4 +21,4 @@ analyzer end = Syntax.Shared.node do
             , () <$ noneOf "\\: \t;)]}"
             ]
 
-    optional $ Syntax.Expression.analyzer $ "," ++ end
+    Syntax.Expression.analyzer $ "," ++ end
