@@ -16,20 +16,18 @@ import qualified Semantic.Statement.WithStatement
 analyze :: Semantic.Analyzer.Constraint e => Ast.CurlyBracketsBody "syntax-analyzed" -> Eff e (Ast.CurlyBracketsBody "semantic-analyzed")
 analyze body = do
     Semantic.Common.newScope \memberStoreRef -> do
-        mapM
-            (
-                do \(x :: Ast.Node "syntax-analyzed" "discard") ->
-                    inject <$> Semantic.Discard.analyze x
-                @>
-                do \(x :: Ast.Node "syntax-analyzed" "statement/if") ->
-                    inject <$> Semantic.Statement.IfStatement.analyze x
-                @>
-                do \(x :: Ast.Node "syntax-analyzed" "statement/let") ->
-                    inject <$> Semantic.Statement.LetStatement.analyze memberStoreRef x
-                @>
-                do \(x :: Ast.Node "syntax-analyzed" "statement/with") ->
-                    inject <$> Semantic.Statement.WithStatement.analyze x
-                @>
-                typesExhausted
-            )
-            do body
+        (`mapM` body) (
+            do \(x :: Ast.Node "syntax-analyzed" "discard") ->
+                inject <$> Semantic.Discard.analyze x
+            @>
+            do \(x :: Ast.Node "syntax-analyzed" "statement/if") ->
+                inject <$> Semantic.Statement.IfStatement.analyze x
+            @>
+            do \(x :: Ast.Node "syntax-analyzed" "statement/let") ->
+                inject <$> Semantic.Statement.LetStatement.analyze memberStoreRef x
+            @>
+            do \(x :: Ast.Node "syntax-analyzed" "statement/with") ->
+                inject <$> Semantic.Statement.WithStatement.analyze x
+            @>
+            typesExhausted
+        )
