@@ -1,4 +1,4 @@
-module Syntax.Root.Statement.Base where
+module Syntax.Statement.Base where
 
 import Global
 import Text.Megaparsec

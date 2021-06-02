@@ -77,10 +77,11 @@ executable bootstrap-compiler
     Syntax.Literal.String
     Syntax.Punctuation
     Syntax.Root
-    Syntax.Root.Statement.Base
     Syntax.Separator
     Syntax.Shared
+    Syntax.Statement.Base
     Syntax.Statement.IfStatement
+    Syntax.Statement.IncludeStatement
     Syntax.Statement.LetStatement
     Syntax.Statement.WithStatement
     Syntax.TypeExpression
