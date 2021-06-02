@@ -10,5 +10,5 @@ import {-# SOURCE #-} qualified Semantic.Expression
 analyze :: Semantic.Analyzer.Analyze "statement/with"
 analyze x = do
     Ast.Node
-        <$> do Semantic.Expression.analyze $  Ast.children x
+        <$> do Semantic.Expression.analyze $ Ast.children x
         <*> do pure $ Ast.attributes x
