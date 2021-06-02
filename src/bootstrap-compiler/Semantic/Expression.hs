@@ -150,9 +150,9 @@ analyze x = do
         <*> do
             Ast.Semantic.ExpressionAttributes
                 do Ast.Syntax.location $ Ast.attributes x
-                <$> do (`fmap` get termRef) \case
-                        Nothing -> undefined
-                        Just x -> x
+                <$> (`fmap` get termRef) \case
+                    Nothing -> undefined
+                    Just x -> x
 
 apply x y l = x |>
     do \(x :: Ast.Semantic.Type "array") -> run do
