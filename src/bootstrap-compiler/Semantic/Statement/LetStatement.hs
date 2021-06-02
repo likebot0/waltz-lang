@@ -12,7 +12,7 @@ type VariableStore = Data.HashMap.Strict.HashMap String (Ast.Node "semantic-anal
 
 analyze :: IORef VariableStore -> Semantic.Analyzer.Analyze "statement/let"
 analyze variableStoreRef x = do
-    keyValue <- Semantic.KeyValue.analyze $ Ast.children x
+    keyValue <- Semantic.KeyValue.analyze variableStoreRef $ Ast.children x
 
     let (key, value) = Ast.children keyValue
 
