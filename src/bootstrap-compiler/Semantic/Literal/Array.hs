@@ -15,7 +15,7 @@ import qualified Semantic.Statement.WithStatement
 import qualified Data.HashMap.Strict
 
 analyze :: Semantic.Analyzer.Analyze "literal/array"
-analyze x = do
+analyze x =
     Semantic.Common.newScope \memberStoreRef -> do
         Ast.Node
             do Ast.attributes x
