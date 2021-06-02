@@ -30,7 +30,7 @@ analyzer = Syntax.Shared.node do
             , inject <$> do
                 Syntax.Statement.IfStatement.analyzer "]"
             , inject <$> do
-                Syntax.Statement.IncludeStatement.analyzer "}"
+                Syntax.Statement.IncludeStatement.analyzer "]"
             , inject <$> do
                 Syntax.Statement.LetStatement.analyzer "]"
             , inject <$> do
