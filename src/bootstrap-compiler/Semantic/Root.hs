@@ -12,12 +12,14 @@ analyze :: Semantic.Analyzer.Analyze "root"
 analyze x = do
     Ast.Node
         do Ast.attributes x
-        <$> sequence do
-            Ast.children x >>=
+        <$> mapM
+            (
                 do \(x :: Ast.Node "syntax-analyzed" "expression") -> do
-                    pure $ inject <$> Semantic.Expression.analyze x
+                    inject <$> Semantic.Expression.analyze x
                 @>
                 do \(x :: Ast.Node "syntax-analyzed" "statement/base") -> do
-                    pure $ inject <$> Semantic.Statement.BaseStatement.analyze x
+                    inject <$> Semantic.Statement.BaseStatement.analyze x
                 @>
                 typesExhausted
+            )
+            do Ast.children x
