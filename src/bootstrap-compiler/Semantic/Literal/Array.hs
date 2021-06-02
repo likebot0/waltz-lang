@@ -18,8 +18,7 @@ analyze :: Semantic.Analyzer.Analyze "literal/array"
 analyze x =
     Semantic.Common.newScope \memberStoreRef -> do
         Ast.Node
-            <$> mapM
-                (
+            <$> (`mapM` Ast.children x) (
                     do \(x :: Ast.Node "syntax-analyzed" "discard") ->
                         inject <$> Semantic.Discard.analyze x
                     @>
@@ -40,5 +39,4 @@ analyze x =
                     @>
                     typesExhausted
                 )
-                do Ast.children x
             <*> do pure $ Ast.attributes x
