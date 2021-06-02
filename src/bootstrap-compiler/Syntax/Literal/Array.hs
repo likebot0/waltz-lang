@@ -6,11 +6,13 @@ import qualified Ast
 import qualified Ast.Syntax
 import qualified Syntax.Analyzer
 import {-# SOURCE #-} qualified Syntax.Expression
-import {-# SOURCE #-} qualified Syntax.Statement
 import qualified Syntax.Comment
 import qualified Syntax.Discard
 import qualified Syntax.Separator
 import qualified Syntax.Shared
+import qualified Syntax.Statement.IfStatement
+import qualified Syntax.Statement.LetStatement
+import qualified Syntax.Statement.WithStatement
 import qualified Syntax.UnexpectedStatement
 import qualified Syntax.Whitespace
 
@@ -24,8 +26,12 @@ analyzer = Syntax.Shared.node do
                 Syntax.Discard.analyzer "]"
             , inject <$> do
                 Syntax.Expression.analyzer ",]"
-            , reinterpret <$> do
-                Syntax.Statement.analyzer "]"
+            , inject <$> do
+                Syntax.Statement.IfStatement.analyzer "]"
+            , inject <$> do
+                Syntax.Statement.LetStatement.analyzer "]"
+            , inject <$> do
+                Syntax.Statement.WithStatement.analyzer "]"
             ]
         do choice
             [ Syntax.Comment.analyzer

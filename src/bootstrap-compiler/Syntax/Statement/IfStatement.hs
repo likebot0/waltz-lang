@@ -7,7 +7,7 @@ import qualified Ast.Syntax
 import qualified Data.Maybe
 import qualified Syntax.Analyzer
 import qualified Syntax.CurlyBrackets
-import qualified Syntax.Expression
+import {-# SOURCE #-} qualified Syntax.Expression
 import qualified Syntax.Ignored
 import qualified Syntax.Separator
 import qualified Syntax.Shared
