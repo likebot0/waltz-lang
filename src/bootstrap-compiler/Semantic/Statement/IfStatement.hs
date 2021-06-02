@@ -15,8 +15,6 @@ analyze x = do
     Ast.Node
         do Ast.attributes x
         <$> ((,)
-            <$> do
-                Semantic.Expression.analyze predicate
-            <*> do
-                fst <$> Semantic.CurlyBracketsBody.analyze body
+            <$> do Semantic.Expression.analyze predicate
+            <*> do fst <$> Semantic.CurlyBracketsBody.analyze body
         )

@@ -19,10 +19,8 @@ analyzer = Syntax.Shared.node do
         do optional $ lookAhead anySingle
         do eof
         do choice
-            [ inject <$> do
-                Syntax.Expression.analyzer ","
-            , inject <$> do
-                Syntax.Statement.BaseStatement.analyzer
+            [ inject <$> Syntax.Expression.analyzer ","
+            , inject <$> Syntax.Statement.BaseStatement.analyzer
             ]
         do choice
             [ Syntax.Comment.analyzer

@@ -21,14 +21,10 @@ analyzer =
         do single '{'
         do single '}'
         do choice
-            [ inject <$> do
-                Syntax.Discard.analyzer "}"
-            , inject <$> do
-                Syntax.Statement.IfStatement.analyzer "}"
-            , inject <$> do
-                Syntax.Statement.LetStatement.analyzer "}"
-            , inject <$> do
-                Syntax.Statement.WithStatement.analyzer "}"
+            [ inject <$> Syntax.Discard.analyzer "}"
+            , inject <$> Syntax.Statement.IfStatement.analyzer "}"
+            , inject <$> Syntax.Statement.LetStatement.analyzer "}"
+            , inject <$> Syntax.Statement.WithStatement.analyzer "}"
             ]
         do choice
             [ Syntax.Comment.analyzer

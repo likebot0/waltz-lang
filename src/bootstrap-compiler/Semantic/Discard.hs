@@ -13,5 +13,4 @@ analyze x = do
 
     Ast.Node
         do Ast.attributes x
-        <$> do
-            Semantic.Expression.analyze expression
+        <$> do Semantic.Expression.analyze expression

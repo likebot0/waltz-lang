@@ -13,5 +13,4 @@ analyze x = do
 
     Ast.Node
         do Ast.attributes x
-        <$> do
-            fst <$> Semantic.CurlyBracketsBody.analyze body
+        <$> do fst <$> Semantic.CurlyBracketsBody.analyze body
