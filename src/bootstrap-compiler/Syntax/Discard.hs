@@ -15,6 +15,6 @@ analyzer end = Syntax.Common.node do
 
     Syntax.Common.skipManyTill
         do Syntax.Ignored.analyzer
-        do lookAhead $ noneOf "\\: \t\r\n,;)]}"
+        do lookAhead $ noneOf "\\: \t#\r\n,;)]}"
 
     Syntax.Expression.analyzer $ "," ++ end
