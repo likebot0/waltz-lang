@@ -11,6 +11,7 @@ import qualified Syntax.Discard
 import qualified Syntax.Separator
 import qualified Syntax.Shared
 import qualified Syntax.Statement.IfStatement
+import qualified Syntax.Statement.IncludeStatement
 import qualified Syntax.Statement.LetStatement
 import qualified Syntax.Statement.WithStatement
 import qualified Syntax.UnexpectedStatement
@@ -28,6 +29,8 @@ analyzer = Syntax.Shared.node do
                 Syntax.Expression.analyzer ",]"
             , inject <$> do
                 Syntax.Statement.IfStatement.analyzer "]"
+            , inject <$> do
+                Syntax.Statement.IncludeStatement.analyzer "}"
             , inject <$> do
                 Syntax.Statement.LetStatement.analyzer "]"
             , inject <$> do
