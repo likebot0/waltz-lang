@@ -18,7 +18,6 @@ analyze x = do
 
     do
         Ast.Node
-            do Ast.attributes x
             <$> ((,)
                 <$> do
                     identifier |> \case
@@ -37,6 +36,7 @@ analyze x = do
                 <*> do
                     fst <$> Semantic.CurlyBracketsBody.analyze body
             )
+            <*> do pure $ Ast.attributes x
         -- Handle local identifiers
         |> with @ "resolve" do
             Fun super <- useContext @ "resolve"

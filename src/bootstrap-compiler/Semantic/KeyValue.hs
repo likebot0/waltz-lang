@@ -13,8 +13,8 @@ analyze x = do
     let (identifier, expression) = Ast.children x
 
     Ast.Node
-        do Ast.attributes x
         <$> ((,)
             <$> Semantic.Identifier.analyze identifier
             <*> Semantic.Expression.analyze expression
         )
+        <*> do pure $ Ast.attributes x

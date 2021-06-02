@@ -12,5 +12,5 @@ analyze x = do
     let body = Ast.children x
 
     Ast.Node
-        do Ast.attributes x
         <$> do fst <$> Semantic.CurlyBracketsBody.analyze body
+        <*> do pure $ Ast.attributes x

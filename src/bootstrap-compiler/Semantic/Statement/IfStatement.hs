@@ -13,8 +13,8 @@ analyze x = do
     let (predicate, body) = Ast.children x
 
     Ast.Node
-        do Ast.attributes x
         <$> ((,)
             <$> do Semantic.Expression.analyze predicate
             <*> do fst <$> Semantic.CurlyBracketsBody.analyze body
         )
+        <*> do pure $ Ast.attributes x

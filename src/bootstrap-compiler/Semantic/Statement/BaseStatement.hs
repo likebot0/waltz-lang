@@ -12,5 +12,5 @@ analyze x = do
     let identifier = Ast.children x
 
     Ast.Node
-        do Ast.attributes x
         <$> Semantic.Identifier.analyze identifier
+        <*> do pure $ Ast.attributes x

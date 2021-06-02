@@ -149,13 +149,12 @@ analyze x = do
 
     term <- get termRef
 
-    pure $ Ast.Node
+    pure $ Ast.Node children
         do Ast.Semantic.ExpressionAttributes
             do Ast.Syntax.location $ Ast.attributes x
             do term |> \case
                 Nothing -> undefined
                 Just x -> x
-        children
 
 apply x y l = x |>
     do \(x :: Ast.Semantic.Type "array") -> run do

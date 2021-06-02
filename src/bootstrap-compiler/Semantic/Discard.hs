@@ -12,5 +12,5 @@ analyze x = do
     let expression = Ast.children x
 
     Ast.Node
-        do Ast.attributes x
         <$> do Semantic.Expression.analyze expression
+        <*> do pure $ Ast.attributes x

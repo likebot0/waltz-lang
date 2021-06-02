@@ -18,10 +18,7 @@ analyze :: Semantic.Analyzer.Analyze "literal/object"
 analyze x =
     Semantic.Common.newScope \memberStoreRef -> do
         Ast.Node
-            <$> do Ast.Semantic.CurlyBracketsAttributes
-                do Ast.Syntax.location $ Ast.attributes x
-                <$> do get memberStoreRef
-            <*> mapM
+            <$> mapM
                 (
                     do \(x :: Ast.Node "syntax-analyzed" "discard") ->
                         inject <$> Semantic.Discard.analyze x
@@ -54,4 +51,7 @@ analyze x =
                     @>
                     typesExhausted
                 )
-                do Ast.children x 
+                do Ast.children x
+            <*> do Ast.Semantic.CurlyBracketsAttributes
+                do Ast.Syntax.location $ Ast.attributes x
+                <$> do get memberStoreRef

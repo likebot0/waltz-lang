@@ -9,5 +9,5 @@ import qualified Semantic.Analyzer
 analyze :: Semantic.Analyzer.Analyze "literal/number"
 analyze x = do
     pure $ Ast.Node
-        do Ast.attributes x
         do Ast.children x
+        do Ast.attributes x

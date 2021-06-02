@@ -3,8 +3,8 @@ module Ast where
 import Global
 
 data Node (a :: Symbol) (t :: Symbol) = Node
-    { attributes :: Attributes a t
-    , children :: Children a t
+    { children :: Children a t
+    , attributes :: Attributes a t
     }
 
 type family Attributes (a :: Symbol) (t :: Symbol)

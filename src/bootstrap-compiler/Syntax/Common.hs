@@ -17,13 +17,9 @@ node :: Syntax.Analyzer.Hoa (Ast.Children "syntax-analyzed" a) (Ast.Node "syntax
 node p = do
     start <- Syntax.Diagnostic.Position.analyzer
 
-    x <- p
-
-    end <- Syntax.Diagnostic.Position.analyzer
-
-    pure $ Ast.Node
-        do Ast.Syntax.Attributes do Diagnostic.Location start end
-        x
+    Ast.Node
+        <$> p
+        <*> do Ast.Syntax.Attributes <$> Diagnostic.Location start <$> Syntax.Diagnostic.Position.analyzer
 
 keyword k = try do
     x <- chunk k

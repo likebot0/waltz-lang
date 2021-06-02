@@ -9,5 +9,5 @@ import qualified Semantic.Analyzer
 analyze :: Semantic.Analyzer.Analyze "literal/string"
 analyze x = do
     pure $ Ast.Node
-        do Ast.attributes x
         do [ inject "" ]
+        do Ast.attributes x

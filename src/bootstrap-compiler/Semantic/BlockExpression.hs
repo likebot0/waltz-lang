@@ -12,8 +12,8 @@ analyze x = do
     let body = Ast.children x
 
     Ast.Node
-        do Ast.attributes x
         <$> do fst <$> Semantic.CurlyBracketsBody.analyze body
+        <*> do Ast.attributes x
 
     |> with @ "resolve" do
         Fun super <- useContext @ "resolve"

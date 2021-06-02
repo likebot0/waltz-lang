@@ -11,7 +11,6 @@ import qualified Semantic.Statement.BaseStatement
 analyze :: Semantic.Analyzer.Analyze "root"
 analyze x = do
     Ast.Node
-        do Ast.attributes x
         <$> mapM
             (
                 do \(x :: Ast.Node "syntax-analyzed" "expression") ->
@@ -23,3 +22,4 @@ analyze x = do
                 typesExhausted
             )
             do Ast.children x
+        <*> do pure $ Ast.attributes x
