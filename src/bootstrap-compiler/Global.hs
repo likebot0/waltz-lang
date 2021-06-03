@@ -54,14 +54,14 @@ with f m = do
 
     Control.Monad.Freer.Internal.handleRelay
         pure
-        (\UseContext k -> k x)
+        do \UseContext k -> k x
         m
 
 withRaiseHandler :: forall e a. (forall b. Show b => b -> Eff (Return a : e) a) -> Eff (Raise : e) a -> Eff e a
 withRaiseHandler f =
     Control.Monad.Freer.Internal.handleRelay
         pure
-        (\(Raise x) _ -> run $ f x)
+        do \(Raise x) _ -> run $ f x
 
 newtype
     Fun s = Fun (forall e. FunConstraint s e => Input s -> Eff e (Output s))
