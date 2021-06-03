@@ -61,7 +61,7 @@ withRaiseHandler :: forall e a. (forall b. Show b => b -> Eff (Return a : e) a) 
 withRaiseHandler f =
     Control.Monad.Freer.Internal.handleRelay
         pure
-        do \(Raise x) _ -> run $ f x
+        \(Raise x) _ -> run $ f x
 
 newtype
     Fun s = Fun (forall e. FunConstraint s e => Input s -> Eff e (Output s))
@@ -99,7 +99,9 @@ return =
 
 run :: Eff (Return a : e) a -> Eff e a
 run =
-    Control.Monad.Freer.Internal.handleRelay pure (\(Return x) _ -> pure x)
+    Control.Monad.Freer.Internal.handleRelay
+        pure
+        \(Return x) _ -> pure x
 
 when p f =
     if p then
