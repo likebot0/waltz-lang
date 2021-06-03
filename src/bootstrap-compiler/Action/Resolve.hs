@@ -47,7 +47,7 @@ withDefault x = x
 
             super identifier
 
-    -- Caching
+    -- Handle global identifiers (Caching)
     |> with @ "resolve" do
         Fun super <- useContext @ "resolve"
 
@@ -67,7 +67,7 @@ withDefault x = x
 
             return result
 
-    -- Verbose output
+    -- Handle global identifiers (Verbose output)
     |> with @ "resolve" do
         Fun super <- useContext @ "resolve"
 
@@ -76,7 +76,7 @@ withDefault x = x
 
             super identifier
 
-    -- AST dump
+    -- Handle global identifiers (AST dump)
     |> with @ "resolve" do
         Fun super <- useContext @ "resolve"
 
@@ -89,7 +89,7 @@ withDefault x = x
                         return identifier
 
             return ast
-
+    -- Handle global identifiers (
     |> with @ "resolve" do
         fun \identifier -> do
             path <- call @ "get-path-by-id" identifier
