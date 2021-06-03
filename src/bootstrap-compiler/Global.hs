@@ -52,19 +52,18 @@ with :: forall s e a. Eff e (Context s) -> Eff (UseContext s : e) a -> Eff e a
 with f m = do
     x <- f
 
-    m |> Control.Monad.Freer.Internal.handleRelay pure (\UseContext k -> k x)
-
-withControl :: forall s e a. Eff e (UseContext s) -> Eff (UseContext s : e) a -> Eff e a
-withControl f m = do
-    g <- f
-
-    m |> Control.Monad.Freer.Internal.handleRelay pure (\UseContext k -> g k)
+    Control.Monad.Freer.Internal.handleRelay
+        pure
+        (\UseContext k -> k x)
+        m
 
 withRaiseHandler :: forall e a. (forall b. Show b => b -> Eff (Return a : e) a) -> Eff (Raise : e) a -> Eff e a
 withRaiseHandler f =
-    Control.Monad.Freer.Internal.handleRelay pure (\(Raise x) _ ->
-        run $ f x
-    )
+    Control.Monad.Freer.Internal.handleRelay
+        pure
+        (\(Raise x) _ ->
+            run $ f x
+        )
 
 newtype
     Fun s = Fun (forall e. FunConstraint s e => Input s -> Eff e (Output s))
