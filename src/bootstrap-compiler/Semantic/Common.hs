@@ -20,12 +20,6 @@ newScope f = do
             initialSrcId <- call @ "get-current-src-id" ()
 
             fun \identifier -> do
-                currentSrcId <- call @ "get-current-src-id" ()
-
-                if currentSrcId /= initialSrcId
-                    then return =<< super identifier
-                    else pure ()
-
                 variableStore <- get variableStoreRef
 
                 Data.HashMap.Strict.lookup identifier variableStore |> \case

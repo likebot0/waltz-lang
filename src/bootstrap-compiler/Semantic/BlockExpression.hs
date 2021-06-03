@@ -19,12 +19,6 @@ analyze x = do
         initialSrcId <- call @ "get-current-src-id" ()
 
         fun \identifier -> do
-            currentSrcId <- call @ "get-current-src-id" ()
-
-            if currentSrcId /= initialSrcId
-                then return =<< super identifier
-                else pure ()
-
             if identifier == "break"
                 then return undefined
                 else pure ()
