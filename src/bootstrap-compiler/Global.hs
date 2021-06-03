@@ -91,7 +91,7 @@ call x =
 
 fun :: forall s e. (forall e. FunConstraint s e => Input s -> Eff (Return (Output s) : e) (Output s)) -> Eff e (Fun s)
 fun f =
-    pure (Fun (run . f))
+    pure $ Fun $ run . f
 
 return :: forall e a b. a -> Eff (Return a : e) b
 return =
