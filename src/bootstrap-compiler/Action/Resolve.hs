@@ -23,15 +23,14 @@ withDefault x = x
         fun \identifier -> do
             if Data.HashMap.Strict.member identifier reservedIdentifiers
                 then return undefined
-                else pure ()
-
-　　　　　　　case identifier of
-                "break" ->
-                    raise Error.BreakNotInBlock.Type
-                "return" ->
-                    raise Error.ReturnNotInFunction.Type
-                _ ->
-                    pure ()
+                else
+        　　　　　　　case identifier of
+                        "break" ->
+                            raise Error.BreakNotInBlock.Type
+                        "return" ->
+                            raise Error.ReturnNotInFunction.Type
+                        _ ->
+                            pure ()
 
             super identifier
 
