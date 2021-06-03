@@ -17,8 +17,6 @@ newScope f = do
         |> with @ "resolve" do
             Fun super <- useContext @ "resolve"
 
-            initialSrcId <- call @ "get-current-src-id" ()
-
             fun \identifier -> do
                 variableStore <- get variableStoreRef
 

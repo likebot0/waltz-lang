@@ -16,8 +16,6 @@ analyze x = do
     |> with @ "resolve" do
         Fun super <- useContext @ "resolve"
 
-        initialSrcId <- call @ "get-current-src-id" ()
-
         fun \identifier -> do
             if identifier == "break"
                 then return undefined
