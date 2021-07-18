@@ -1,0 +1,5 @@
+\fn input: [
+	hash-table: ~/hash-table.type
+] {
+	!return hash-table/size
+}
