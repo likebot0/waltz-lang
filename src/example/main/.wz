@@ -129,6 +129,19 @@
 
 		!let user-thread-queue: /std/blocking/list/empty user-thread
 
+		with: \fn action {
+			!let x: spawn action
+
+			!for _: range 0 4, {
+				: /std/kernel-thread/spawn {
+					action: main-loop
+					detach: true
+				}
+			}
+
+			: /std/user-thread/await x
+		}
+
 		/std/user-thread/handle: \forall a -> \type {
 			listeners: /std/blocking/list user-thread
 			result-ref: /std/ref a
@@ -191,22 +204,7 @@
 
 			!return handle
 		}
-
-		/std/user-thread/implements: \fn action {
-			!let x: spawn action
-
-			!for _: range 0 4, {
-				: /std/kernel-thread/spawn {
-					action: main-loop
-					detach: true
-				}
-			}
-
-			: /std/user-thread/await x
-		}
 	}
-
-	!with /std/user-thread/implements
 
 	!let x: await {
 		a: spawn \fn _ {
